@@ -1,17 +1,13 @@
 package com.battleship.authservice.service;
 
 import com.battleship.authservice.jwt.JwtUtils;
-import com.battleship.authservice.model.User;
-import com.battleship.authservice.payload.request.SignUpRequest;
 import com.battleship.authservice.payload.response.JWTResponse;
-import com.battleship.authservice.payload.response.MessageResponse;
 import com.battleship.authservice.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,10 +16,6 @@ import javax.transaction.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class AuthenticateService {
-
-    private final UserService userService;
-    private final PasswordEncoder encoder;
-
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;

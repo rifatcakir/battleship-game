@@ -62,9 +62,17 @@ public class SecurityConfig {
                 .build();
     }
 
+    private static final String[] SWAGGER_AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/authenticate/signup", "/authenticate/login"
+    };
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/authenticate/signup","/authenticate/login");
+        return (web) -> web.ignoring().antMatchers(SWAGGER_AUTH_WHITELIST);
     }
 
     @Bean

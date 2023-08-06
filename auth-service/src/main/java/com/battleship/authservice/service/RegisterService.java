@@ -1,7 +1,7 @@
 package com.battleship.authservice.service;
 
+import com.battleship.authservice.exception.UserExistsException;
 import com.battleship.authservice.model.User;
-import com.battleship.authservice.payload.request.SignUpRequest;
 import com.battleship.authservice.payload.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ public class RegisterService {
 
     public MessageResponse registerUser(String username,String password) {
         if (userService.existsByUsername(username)) {
-            return new MessageResponse("Error: Username is already taken!");
+            throw new UserExistsException("Error: Username is already taken!");
         }
 
         User user = new User();
