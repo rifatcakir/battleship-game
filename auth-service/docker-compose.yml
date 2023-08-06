@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: mysql-database
+    image: 'mysql:latest'
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      #MYSQL_USER: root
+      MYSQL_PASSWORD: testpassword
+      MYSQL_ROOT_PASSWORD: testpassword
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  db-data:
