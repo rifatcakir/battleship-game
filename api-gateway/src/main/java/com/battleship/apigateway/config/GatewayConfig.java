@@ -15,9 +15,10 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes().route("AUTH-SERVICE", r -> r.path("/authenticate/**").filters(f -> f.filter(filter)).uri("lb://AUTH-SERVICE"))
-                .route("PRODUCT-SERVICE", r -> r.path("/product/**").filters(f -> f.filter(filter)).uri("lb://PRODUCT-SERVICE"))
-                .route("PAYMENT-SERVICE", r -> r.path("/payment/**").filters(f -> f.filter(filter)).uri("lb://PAYMENT-SERVICE"))
-                .route("ORDER-SERVICE", r -> r.path("/order/**").filters(f -> f.filter(filter)).uri("lb://ORDER-SERVICE")).build();
+        return builder.routes()
+                .route("AUTH-SERVICE", r -> r.path("/authenticate/**").filters(f -> f.filter(filter)).uri("lb://AUTH-SERVICE"))
+                .route("GAME-LOBBY-SERVICE", r -> r.path("/gamelobby/**").filters(f -> f.filter(filter)).uri("lb://GAME-LOBBY-SERVICE"))
+                .route("openapi", r -> r.path("/v3/api-docs/**").filters(f -> f.filter(filter)).uri("http://localhost:8080"))
+                .build();
     }
 }

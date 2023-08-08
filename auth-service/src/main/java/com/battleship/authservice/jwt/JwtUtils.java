@@ -32,6 +32,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setIssuer("PLAYER")
                 .compact();
     }
 

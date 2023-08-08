@@ -1,0 +1,16 @@
+server:
+  port: 7778
+
+spring:
+  application:
+    name: GAME-LOBBY-SERVICE
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+
+
+
+springdoc:
+  packagesToScan: com.battleship.gamelobby
+
+jwt:
+  secret: mySecretKey

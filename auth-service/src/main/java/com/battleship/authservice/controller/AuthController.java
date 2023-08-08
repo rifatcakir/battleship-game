@@ -2,8 +2,15 @@ package com.battleship.authservice.controller;
 
 import com.battleship.authservice.payload.request.LoginRequest;
 import com.battleship.authservice.payload.request.SignUpRequest;
+import com.battleship.authservice.payload.response.JWTResponse;
 import com.battleship.authservice.service.AuthenticateService;
 import com.battleship.authservice.service.RegisterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +32,7 @@ public class AuthController {
     private final RegisterService registerService;
     private final AuthenticateService authenticateService;
 
+    @Operation(summary = "Create new user", description = "User registration endpoint", tags = "Registration")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest,
                                           UriComponentsBuilder uriComponentsBuilder) {
@@ -33,7 +41,12 @@ public class AuthController {
         return ResponseEntity.created(location).body(registerService.registerUser(signUpRequest.getUsername(), signUpRequest.getPassword()));
     }
 
+    @Operation(summary = "Login", description = "Generating JWT tokens", tags = {"Authorization"})
     @PostMapping("/login")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "JWT token",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = JWTResponse.class))))
+    })
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
     }

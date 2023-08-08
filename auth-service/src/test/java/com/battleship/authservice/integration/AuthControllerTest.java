@@ -83,7 +83,7 @@ public class AuthControllerTest {
 
 
         //then
-        mockMvc.perform(post("/authenticate/login")
+        mockMvc.perform(post(baseUrl + "/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful());
@@ -96,7 +96,7 @@ public class AuthControllerTest {
         var request = MockObject.loginRequest();
 
         //when + then
-        mockMvc.perform(post("/authenticate/login")
+        mockMvc.perform(post(baseUrl + "/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
