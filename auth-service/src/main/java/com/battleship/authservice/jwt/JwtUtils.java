@@ -28,11 +28,15 @@ public class JwtUtils {
 
     public String generateTokenFromUsername(String username) {
         UserDetails userDetails= customUserDetailsService.loadUserByUsername(username);
+        StringBuilder roles = new StringBuilder();
+        userDetails.getAuthorities().forEach(role -> {
+            roles.append(role.getAuthority() + " ");
+        });
         return Jwts.builder()
                 .setSubject(username)
+                .setIssuer(roles.toString())
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .setIssuer("PLAYER")
                 .compact();
     }
 

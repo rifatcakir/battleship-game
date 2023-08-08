@@ -29,8 +29,8 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/game-lobby/**").hasRole("PLAYER")
-                .antMatchers(HttpMethod.GET, "/game-lobby/**").hasRole("PLAYER")
+                .antMatchers(HttpMethod.POST, "/game-lobby/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/game-lobby/**").hasRole("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()

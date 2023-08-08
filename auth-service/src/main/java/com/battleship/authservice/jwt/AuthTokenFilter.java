@@ -33,7 +33,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(request);
-            LOGGER.error(" AuthTokenFilter | doFilterInternal | jwt: {}", jwt);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 

@@ -25,7 +25,7 @@ spring:
         - id: GAME-LOBBY-SERVICE
           uri: lb://GAME-LOBBY-SERVICE
           predicates:
-            - Path=/gamelobby/**
+            - Path=/game-lobby/**
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
