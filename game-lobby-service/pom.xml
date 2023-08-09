@@ -10,6 +10,13 @@
     </parent>
 
     <artifactId>game-lobby-service</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>game-lobby-service-app</module>
+        <module>game-lobby-service-domain</module>
+        <module>game-lobby-service-adapter/game-lobby-service-rest-adapter</module>
+        <module>game-lobby-service-adapter/game-lobby-service-db-adapter</module>
+    </modules>
     <properties>
         <java.version>11</java.version>
         <jwt.version>0.9.1</jwt.version>
@@ -84,25 +91,5 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

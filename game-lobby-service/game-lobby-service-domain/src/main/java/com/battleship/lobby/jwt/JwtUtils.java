@@ -1,4 +1,4 @@
-package com.battleship.gamelobby.jwt;
+package com.battleship.lobby.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

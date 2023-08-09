@@ -1,4 +1,4 @@
-package com.battleship.gamelobby.jwt;
+package com.battleship.lobby.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
