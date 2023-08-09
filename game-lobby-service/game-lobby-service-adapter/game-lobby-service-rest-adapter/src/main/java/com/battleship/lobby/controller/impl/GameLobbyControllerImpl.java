@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class GameLobbyControllerImpl implements GameLobbyController {
 
     @Override
     public ResponseEntity<?> createGameLobby(HttpServletRequest request) {
-        return ResponseEntity.created(URI.create("/join/{gameLobbyId}")).body(gameLobbyService.createGameLobby(request.getUserPrincipal().getName()));
+        return ResponseEntity.ok(gameLobbyService.createGameLobby(request.getUserPrincipal().getName()));
     }
 
     @Override
