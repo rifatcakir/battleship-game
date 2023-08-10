@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException, ServletException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         try {
 
@@ -62,12 +62,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         log.info("AuthTokenFilter | parseJwt | headerAuth: {}", headerAuth);
 
-        //   if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
         if (StringUtils.hasText(headerAuth)) {
 
-            log.info("AuthTokenFilter | parseJwt | parseJwt: {}", headerAuth.substring(7, headerAuth.length()));
+            log.info("AuthTokenFilter | parseJwt | parseJwt: {}", headerAuth.substring(7));
 
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         }
 
         return null;

@@ -1,5 +1,6 @@
 package com.battleship.lobby.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Table(name = "GameLobby")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class GameLobby implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,0 +1,23 @@
+server:
+  port: 7778
+
+spring:
+  application:
+    name: GAME-LOBBY-SERVICE
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3307/gamelobbydb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Turkey
+    username: root
+    password: testpassword
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    hibernate:
+      ddl-auto: create
+
+springdoc:
+  packagesToScan: com.battleship.gamelobby
+
+jwt:
+  secret: mySecretKey

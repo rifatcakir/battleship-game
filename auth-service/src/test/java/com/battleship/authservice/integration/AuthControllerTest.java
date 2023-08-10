@@ -4,7 +4,6 @@ import com.battleship.authservice.repository.UserRepository;
 import com.battleship.authservice.utils.MockObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,7 +38,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void creatingNewUserShouldReturns200WhenValidInput() throws Exception {
+    void creatingNewUserShouldReturns200WhenValidInput() throws Exception {
         //given
         var request = MockObject.signUpRequest();
 
@@ -56,7 +54,7 @@ public class AuthControllerTest {
 
     @Test
     @WithAnonymousUser
-    public void creatingExistingUserShouldReturnError() throws Exception {
+    void creatingExistingUserShouldReturnError() throws Exception {
         //given
         userRepository.save(MockObject.user());
         var request = MockObject.signUpRequest();
@@ -71,7 +69,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void loginWithValidUserShouldReturn200() throws Exception {
+    void loginWithValidUserShouldReturn200() throws Exception {
         //given
         var request = MockObject.signUpRequest();
 
@@ -91,7 +89,7 @@ public class AuthControllerTest {
 
     @Test
     @WithAnonymousUser
-    public void loginWithNotExistUserShouldReturn404() throws Exception {
+    void loginWithNotExistUserShouldReturn404() throws Exception {
         //given
         var request = MockObject.loginRequest();
 
@@ -103,9 +101,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    @Disabled
-    @WithMockUser
-    void givenUserLoggedIn_whenCallSwagger_thenOk() throws Exception { //TODO FIX
+    void givenNoUserLoggedIn_whenCallSwagger_thenOk() throws Exception { //TODO FIX
         mockMvc.perform(get("/swagger-ui/index.html"))
                 .andExpect(status().isOk());
     }

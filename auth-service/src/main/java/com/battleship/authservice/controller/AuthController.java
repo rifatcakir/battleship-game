@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +42,9 @@ public class AuthController {
 
     @Operation(summary = "Login", description = "Generating JWT tokens", tags = {"Authorization"})
     @PostMapping("/login")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "JWT token",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = JWTResponse.class))))
-    })
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    @ApiResponse(responseCode = "200", description = "JWT token",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = JWTResponse.class))))
+    public ResponseEntity<JWTResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
     }
 
