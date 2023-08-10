@@ -15,9 +15,23 @@ spring:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange: user.exchange
+    queue: user.queue
+    routingkey: user.routingkey
 
 springdoc:
   packagesToScan: com.battleship.gamelobby
 
 jwt:
   secret: mySecretKey
+
+battleship:
+  rabbitmq:
+    exchange: battleship.message.exchange
+    queue: battleship.message.queue
+    routingkey: battleship.message.routingkey

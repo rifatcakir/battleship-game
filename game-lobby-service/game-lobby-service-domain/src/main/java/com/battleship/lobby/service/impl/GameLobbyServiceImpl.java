@@ -1,7 +1,7 @@
 package com.battleship.lobby.service.impl;
 
-import com.battleship.lobby.exception.GameLobbyNotAvailable;
 import com.battleship.lobby.exception.GameLobbyNotFoundException;
+import com.battleship.lobby.messaging.GameLobbyPublisher;
 import com.battleship.lobby.model.GameLobbyModel;
 import com.battleship.lobby.repository.GameLobbyRepository;
 import com.battleship.lobby.service.GameLobbyService;
@@ -19,6 +19,9 @@ public class GameLobbyServiceImpl implements GameLobbyService {
     @Autowired
     private final GameLobbyRepository gameLobbyRepository;
 
+    @Autowired
+    private final GameLobbyPublisher gameLobbyPublisher;
+
     @Override
     public GameLobbyModel createGameLobby(String userName) {
         return gameLobbyRepository.saveGameLobby(new GameLobbyModel(null, userName, null));
@@ -35,12 +38,15 @@ public class GameLobbyServiceImpl implements GameLobbyService {
         GameLobbyModel gameLobby = gameLobbyRepository.findGameLobbyById(gameLobbyId)
                 .orElseThrow(GameLobbyNotFoundException::new);
 
-        if (!isGameLobbyAvailable(gameLobby)) {
-            throw new GameLobbyNotAvailable();
-        }
+        //       if (!isGameLobbyAvailable(gameLobby)) {
+        //           throw new GameLobbyNotAvailable();
+        //      }
 
         gameLobby.setPlayer2Name(userName);
-        return gameLobbyRepository.saveGameLobby(gameLobby);
+
+        GameLobbyModel savedLobby = gameLobbyRepository.saveGameLobby(gameLobby);
+        gameLobbyPublisher.publishGameLobby(savedLobby);
+        return savedLobby;
     }
 
     private boolean isGameLobbyAvailable(GameLobbyModel gameLobby) {

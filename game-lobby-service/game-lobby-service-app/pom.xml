@@ -32,6 +32,11 @@
             <artifactId>game-lobby-service-db-adapter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.battleship</groupId>
+            <artifactId>game-lobby-service-message-queue-adapter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

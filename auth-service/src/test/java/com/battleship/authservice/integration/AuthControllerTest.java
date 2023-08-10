@@ -101,7 +101,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void givenNoUserLoggedIn_whenCallSwagger_thenOk() throws Exception { //TODO FIX
+    void givenNoUserLoggedIn_whenCallSwagger_thenOk() throws Exception {
         mockMvc.perform(get("/swagger-ui/index.html"))
                 .andExpect(status().isOk());
     }

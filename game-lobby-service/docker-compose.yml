@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq-service
+    image: rabbitmq:3-management
+    command: sh -c "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-server"
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 61613:61613
   database:
     container_name: gamelobby-database
     image: 'mysql:latest'
@@ -27,3 +35,6 @@ networks:
 
 volumes:
   db-data:
+  rabbitmq:
+    name: rabbitmq_vol
+    driver: local

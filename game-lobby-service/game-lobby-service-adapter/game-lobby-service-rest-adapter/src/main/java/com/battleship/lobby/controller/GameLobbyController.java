@@ -28,7 +28,7 @@ public interface GameLobbyController {
     ResponseEntity<List<GameLobbyModel>> findAvailableGameLobby();
 
 
-    @Operation(summary = "Find available game lobby", description = "Find available Game lobby endpoint", tags = "GameLobby")
+    @Operation(summary = "Join available game lobby", description = "Join available Game lobby endpoint", tags = "GameLobby")
     @PreAuthorize("hasAuthority('ROLE_PLAYER')")
     @PostMapping("/join/{id}")
     ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, @PathVariable(value = "id") Integer gameLobbyId);
