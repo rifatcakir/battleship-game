@@ -19,5 +19,12 @@ spring:
 springdoc:
   packagesToScan: com.battleship.gamelobby
 
-jwt:
-  secret: mySecretKey
+
+battleship:
+  jwt:
+    secret: mySecretKey
+  rabbitmq:
+    exchange: lobby.message.exchange
+    queue: lobby.message.queue
+    routingkey: lobby.message.routingkey
+

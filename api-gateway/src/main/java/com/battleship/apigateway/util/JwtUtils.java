@@ -11,7 +11,7 @@ public class JwtUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${jwt.secret}")
+    @Value("${battleship.jwt.secret}")
     private String jwtSecret;
 
     public Claims getClaims(final String token) {

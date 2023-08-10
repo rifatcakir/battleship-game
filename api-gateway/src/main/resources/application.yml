@@ -49,7 +49,6 @@ logging:
   level:
     org.springframework: DEBUG
 
-jwt:
-  secret: mySecretKey
-  expireMs: 120000
-  refrEshexpireMs: 120000
+battleship:
+  jwt:
+    secret: mySecretKey

@@ -1,5 +1,6 @@
 package com.battleship.lobby.service.impl;
 
+import com.battleship.lobby.exception.GameLobbyNotAvailable;
 import com.battleship.lobby.exception.GameLobbyNotFoundException;
 import com.battleship.lobby.messaging.GameLobbyPublisher;
 import com.battleship.lobby.model.GameLobbyModel;
@@ -38,9 +39,9 @@ public class GameLobbyServiceImpl implements GameLobbyService {
         GameLobbyModel gameLobby = gameLobbyRepository.findGameLobbyById(gameLobbyId)
                 .orElseThrow(GameLobbyNotFoundException::new);
 
-        //       if (!isGameLobbyAvailable(gameLobby)) {
-        //           throw new GameLobbyNotAvailable();
-        //      }
+        if (!isGameLobbyAvailable(gameLobby)) {
+            throw new GameLobbyNotAvailable();
+        }
 
         gameLobby.setPlayer2Name(userName);
 

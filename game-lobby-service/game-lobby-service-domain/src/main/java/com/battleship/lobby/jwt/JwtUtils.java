@@ -15,7 +15,7 @@ public class JwtUtils extends SecurityProperties.Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${jwt.secret}")
+    @Value("${battleship.jwt.secret}")
     private String jwtSecret;
 
     public String getUserNameFromJwtToken(String token) {

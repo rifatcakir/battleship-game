@@ -16,7 +16,7 @@ public class JwtUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${jwt.secret}")
+    @Value("${battleship.jwt.secret}")
     private String jwtSecret;
 
     @Autowired
@@ -30,7 +30,7 @@ public class JwtUtils {
         UserDetails userDetails= customUserDetailsService.loadUserByUsername(username);
         StringBuilder roles = new StringBuilder();
         userDetails.getAuthorities().forEach(role -> {
-            roles.append(role.getAuthority() + " ");
+            roles.append(role.getAuthority()).append(" ");
         });
         return Jwts.builder()
                 .setSubject(username)
