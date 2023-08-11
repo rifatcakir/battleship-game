@@ -1,0 +1,40 @@
+server:
+  port: 7779
+
+spring:
+  application:
+    name: GAME-ENGINE-SERVICE
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3308/gameenginedb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Turkey
+    username: root
+    password: testpassword
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          max-attempts: 3
+          max-interval: 5s
+          multiplier: 2
+
+springdoc:
+  packagesToScan: com.battleship.gameengine
+
+
+battleship:
+  jwt:
+    secret: mySecretKey
+  rabbitmq:
+    queue: lobby.message.queue

@@ -5,31 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.battleship</groupId>
-        <artifactId>game-lobby-service</artifactId>
+        <artifactId>game-engine-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>game-lobby-service-app</artifactId>
+    <artifactId>game-engine-service-app</artifactId>
+
 
     <dependencies>
         <dependency>
             <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-rest-adapter</artifactId>
+            <artifactId>game-engine-service-domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-domain</artifactId>
+            <artifactId>game-engine-service-messaging-adapter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-db-adapter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-message-queue-adapter</artifactId>
+            <artifactId>game-engine-service-db-adapter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

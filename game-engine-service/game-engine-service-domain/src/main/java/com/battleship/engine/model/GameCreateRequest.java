@@ -1,4 +1,4 @@
-package com.battleship.lobby.model;
+package com.battleship.engine.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GameLobbyModel {
+public class GameCreateRequest {
     private Integer gameLobbyId;
     private String player1Name;
     private String player2Name;
