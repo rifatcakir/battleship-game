@@ -19,9 +19,7 @@ public class GameLobbyPublisherImpl implements GameLobbyPublisher {
 
     @Override
     public void publishGameLobby(GameLobbyModel gameLobby) {
-        template.convertAndSend(exchange,
-                routingKey, gameLobby);
-        System.out.println("_________________________" + gameLobby.getGameLobbyId());
+        template.convertAndSend(exchange, routingKey, toMessage(gameLobby));
     }
 
     private GameLobbyMessage toMessage(GameLobbyModel gameLobby) {

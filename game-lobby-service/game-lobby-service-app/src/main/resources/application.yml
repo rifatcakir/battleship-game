@@ -20,6 +20,8 @@ spring:
     port: 5672
     username: guest
     password: guest
+
+
 springdoc:
   packagesToScan: com.battleship.gamelobby
 
