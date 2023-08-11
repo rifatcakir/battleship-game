@@ -21,7 +21,6 @@ spring:
     username: guest
     password: guest
 
-
 springdoc:
   packagesToScan: com.battleship.gamelobby
 

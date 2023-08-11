@@ -26,5 +26,6 @@
         <module>config-server</module>
         <module>auth-service</module>
         <module>game-lobby-service</module>
+        <module>game-engine-service</module>
     </modules>
 </project>

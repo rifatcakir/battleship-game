@@ -18,6 +18,7 @@ public class GatewayConfig {
         return builder.routes()
                 .route("AUTH-SERVICE", r -> r.path("/authenticate/**").filters(f -> f.filter(filter)).uri("lb://AUTH-SERVICE"))
                 .route("GAME-LOBBY-SERVICE", r -> r.path("/game-lobby/**").filters(f -> f.filter(filter)).uri("lb://GAME-LOBBY-SERVICE"))
+                .route("GAME-ENGINE-SERVICE", r -> r.path("/game-engine/**").filters(f -> f.filter(filter)).uri("lb://GAME-ENGINE-SERVICE"))
                 .route("openapi", r -> r.path("/v3/api-docs/**").filters(f -> f.filter(filter)).uri("http://localhost:8080"))
                 .build();
     }

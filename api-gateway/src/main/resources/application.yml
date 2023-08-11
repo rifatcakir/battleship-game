@@ -22,8 +22,12 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
-        - id: GAME-LOBBY-SERVICE
-          uri: lb://GAME-LOBBY-SERVICE
+        - id: GAME-ENGINE-SERVICE
+          uri: lb://GAME-ENGINE-SERVICE
+          predicates:
+            - Path=/game-engine/**
+        - id: GAME-ENGINE-SERVICE
+          uri: lb://GAME-ENGINE-SERVICE
           predicates:
             - Path=/game-lobby/**
         - id: AUTH-SERVICE
@@ -45,6 +49,11 @@ springdoc:
     urls:
       - name: Auth Service
         url: /v3/api-docs/authenticate
+      - name: Game Lobby Service
+        url: /v3/api-docs/game-lobby
+      - name: Game Engine Service
+        url: /v3/api-docs/game-engine
+
 logging:
   level:
     org.springframework: DEBUG

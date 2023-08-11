@@ -22,8 +22,24 @@ public class MQConfig {
     private String routingKey;
 
     @Bean
+    DirectExchange deadLetterExchange() {
+        return new DirectExchange("deadLetterExchange");
+    }
+
+    @Bean
+    Queue dlq() {
+        return QueueBuilder.durable("deadLetter.queue").build();
+    }
+
+    @Bean
     public Queue queue() {
-        return new Queue(queue);
+        return QueueBuilder.durable(queue).withArgument("x-dead-letter-exchange", "deadLetterExchange")
+                .withArgument("x-dead-letter-routing-key", "deadLetter").build();
+    }
+
+    @Bean
+    Binding DLQbinding() {
+        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with("deadLetter");
     }
 
     @Bean
