@@ -4,16 +4,16 @@ server:
 spring:
   application:
     name: GAME-ENGINE-SERVICE
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
   data:
     mongodb:
-      username: test
-      password: passwordvalue
-      uri: mongodb://host:27017/d
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      database: gameengine
+      username: root
+      password: hello
   rabbitmq:
     host: localhost
     port: 5672

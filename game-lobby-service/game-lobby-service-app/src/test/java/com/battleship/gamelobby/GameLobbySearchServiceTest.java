@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -61,12 +62,12 @@ class GameLobbySearchServiceTest {
         List<GameLobbyModel> foundLobbies = gameLobbyUtil.mapMvcResultToObjects(response, new TypeReference<>() {
         });
 
-        List<String> foundPlayer1 = foundLobbies.stream().map(GameLobbyModel::getPlayer1Name).toList();
-        List<String> givenPlayer1 = givenLobbies.stream().map(GameLobby::getPlayer1Name).toList();
+        List<String> foundPlayer1 = foundLobbies.stream().map(GameLobbyModel::getPlayer1Name).collect(Collectors.toList());
+        List<String> givenPlayer1 = givenLobbies.stream().map(GameLobby::getPlayer1Name).collect(Collectors.toList());
         assertThat(foundPlayer1).containsExactlyInAnyOrderElementsOf(givenPlayer1);
 
-        List<String> foundPlayer2 = foundLobbies.stream().map(GameLobbyModel::getPlayer2Name).toList();
-        List<String> givenPlayer2 = givenLobbies.stream().map(GameLobby::getPlayer2Name).toList();
+        List<String> foundPlayer2 = foundLobbies.stream().map(GameLobbyModel::getPlayer2Name).collect(Collectors.toList());
+        List<String> givenPlayer2 = givenLobbies.stream().map(GameLobby::getPlayer2Name).collect(Collectors.toList());
         assertThat(foundPlayer2).containsExactlyInAnyOrderElementsOf(givenPlayer2);
 
     }
