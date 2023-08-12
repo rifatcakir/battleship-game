@@ -1,4 +1,4 @@
-package com.battleship.engine.jwt;
+package com.battleship.security.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -16,6 +16,5 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getOutputStream().println("{ \"error\": \"" + authException.getMessage() + "\" }");
-
     }
 }

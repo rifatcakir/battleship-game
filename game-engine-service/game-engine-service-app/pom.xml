@@ -11,7 +11,6 @@
 
     <artifactId>game-engine-service-app</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>com.battleship</groupId>
@@ -26,6 +25,11 @@
         <dependency>
             <groupId>com.battleship</groupId>
             <artifactId>game-engine-service-db-adapter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.battleship</groupId>
+            <artifactId>game-engine-service-security</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

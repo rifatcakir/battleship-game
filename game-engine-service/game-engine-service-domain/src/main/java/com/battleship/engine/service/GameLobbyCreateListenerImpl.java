@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class GameLobbyCreateListenerImpl implements GameLobbyCreateListener {
     @Override
     public void listener(GameCreateRequest message) {
-
+        System.out.println(message.getGameLobbyId() + message.getPlayer1Name());
     }
 }

@@ -1,4 +1,5 @@
-package com.battleship.engine.jwt;
+package com.battleship.security.jwt;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(req);
+            log.error("AuthTokenFilter | doFilterInternal | jwt: {}", jwt);
+
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
@@ -55,10 +58,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
+
         String headerAuth = request.getHeader("Authorization");
+
+        log.info("AuthTokenFilter | parseJwt | headerAuth: {}", headerAuth);
+
         if (StringUtils.hasText(headerAuth)) {
+
+            log.info("AuthTokenFilter | parseJwt | parseJwt: {}", headerAuth.substring(7));
+
             return headerAuth.substring(7);
         }
+
         return null;
     }
 }

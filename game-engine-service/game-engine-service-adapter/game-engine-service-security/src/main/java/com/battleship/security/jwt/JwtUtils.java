@@ -1,4 +1,4 @@
-package com.battleship.engine.jwt;
+package com.battleship.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

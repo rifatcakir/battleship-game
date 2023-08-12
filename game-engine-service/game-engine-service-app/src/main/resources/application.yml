@@ -4,17 +4,16 @@ server:
 spring:
   application:
     name: GAME-ENGINE-SERVICE
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
-  datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:3308/gameenginedb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Turkey
-    username: root
-    password: testpassword
-    driverClassName: com.mysql.cj.jdbc.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      username: test
+      password: passwordvalue
+      uri: mongodb://host:27017/d
   rabbitmq:
     host: localhost
     port: 5672
