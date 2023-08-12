@@ -25,10 +25,6 @@ public class JwtUtils extends SecurityProperties.Filter {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String getUserIdFromJwtToken(String token) {
-        return (String) Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userId");
-    }
-
     public String[] getRoleNamesFromJwtToken(String token) {
         if (token.startsWith("Bearer")) {
             token = token.substring(7);

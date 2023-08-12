@@ -1,7 +1,6 @@
 package com.battleship.security.jwt;
 
-import com.battleship.security.model.CustomUserDetails;
-import com.battleship.security.model.UserInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @Slf4j
@@ -39,17 +37,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
-                String userName = jwtUtils.getUserNameFromJwtToken(jwt);
-                String userId = jwtUtils.getUserIdFromJwtToken(jwt);
+                String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
                 for (String rolename : jwtUtils.getRoleNamesFromJwtToken(jwt)) {
                     authorities.add(new SimpleGrantedAuthority(rolename));
                 }
 
-                CustomUserDetails userDetails = new CustomUserDetails(new UserInfo(UUID.fromString(userId), userName), authorities);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                        username, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

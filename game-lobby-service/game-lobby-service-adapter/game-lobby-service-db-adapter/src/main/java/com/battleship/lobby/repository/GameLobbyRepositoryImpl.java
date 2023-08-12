@@ -35,8 +35,8 @@ public class GameLobbyRepositoryImpl implements GameLobbyRepository {
     private GameLobby toEntity(GameLobbyModel gameLobbyModel) {
         GameLobby gameLobbyEntity = new GameLobby();
         gameLobbyEntity.setGameLobbyId(gameLobbyModel.getGameLobbyId());
-        gameLobbyEntity.setPlayer1Name("gameLobbyModel.getPlayer1Name()"); //TODO FIX with UUID
-        gameLobbyEntity.setPlayer2Name("gameLobbyModel.getPlayer2Name()");
+        gameLobbyEntity.setPlayer1Name(gameLobbyModel.getPlayer1Name());
+        gameLobbyEntity.setPlayer2Name(gameLobbyModel.getPlayer2Name());
         return gameLobbyEntity;
     }
 

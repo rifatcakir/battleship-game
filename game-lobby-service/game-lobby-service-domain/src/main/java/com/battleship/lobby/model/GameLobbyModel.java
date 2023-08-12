@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GameLobbyModel {
     private Integer gameLobbyId;
-    private String player1Id;
-    private String player2Id;
+    private String player1Name;
+    private String player2Name;
 }
