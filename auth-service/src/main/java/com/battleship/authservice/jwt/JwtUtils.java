@@ -1,12 +1,12 @@
 package com.battleship.authservice.jwt;
 
+import com.battleship.authservice.security.CustomUserDetails;
 import com.battleship.authservice.security.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,13 +27,14 @@ public class JwtUtils {
     }
 
     public String generateTokenFromUsername(String username) {
-        UserDetails userDetails= customUserDetailsService.loadUserByUsername(username);
+        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
         StringBuilder roles = new StringBuilder();
         userDetails.getAuthorities().forEach(role -> {
             roles.append(role.getAuthority()).append(" ");
         });
         return Jwts.builder()
                 .setSubject(username)
+                .claim("userId", userDetails.getId().toString())
                 .setIssuer(roles.toString())
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

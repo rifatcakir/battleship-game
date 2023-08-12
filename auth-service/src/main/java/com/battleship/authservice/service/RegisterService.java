@@ -18,7 +18,7 @@ public class RegisterService {
     private final PasswordEncoder encoder;
 
     public MessageResponse registerUser(String username,String password) {
-        if (userService.existsByUsername(username)) {
+        if (Boolean.TRUE.equals(userService.existsByUsername(username))) {
             throw new UserExistsException("Error: Username is already taken!");
         }
 
