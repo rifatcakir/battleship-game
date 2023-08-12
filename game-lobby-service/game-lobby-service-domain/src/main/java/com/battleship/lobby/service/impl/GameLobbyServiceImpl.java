@@ -3,6 +3,7 @@ package com.battleship.lobby.service.impl;
 import com.battleship.lobby.exception.GameLobbyNotFoundException;
 import com.battleship.lobby.messaging.GameLobbyPublisher;
 import com.battleship.lobby.model.GameLobbyModel;
+import com.battleship.lobby.model.PlayerInfo;
 import com.battleship.lobby.repository.GameLobbyRepository;
 import com.battleship.lobby.service.GameLobbyService;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class GameLobbyServiceImpl implements GameLobbyService {
 
     @Override
     @Transactional
-    public GameLobbyModel joinGameLobby(Integer gameLobbyId, String userName) {
+    public GameLobbyModel joinGameLobby(Integer gameLobbyId, PlayerInfo playerInfo) {
         GameLobbyModel gameLobby = gameLobbyRepository.findGameLobbyById(gameLobbyId)
                 .orElseThrow(GameLobbyNotFoundException::new);
 
@@ -42,7 +43,7 @@ public class GameLobbyServiceImpl implements GameLobbyService {
         //         throw new GameLobbyNotAvailable();
         //      }
 
-        gameLobby.setPlayer2Name(userName);
+        gameLobby.setPlayer1Id(playerInfo.getId().toString());
 
         GameLobbyModel savedLobby = gameLobbyRepository.saveGameLobby(gameLobby);
         gameLobbyPublisher.publishGameLobby(savedLobby);
@@ -50,6 +51,6 @@ public class GameLobbyServiceImpl implements GameLobbyService {
     }
 
     private boolean isGameLobbyAvailable(GameLobbyModel gameLobby) {
-        return gameLobby.getPlayer2Name() == null;
+        return gameLobby.getPlayer2Id() == null;
     }
 }

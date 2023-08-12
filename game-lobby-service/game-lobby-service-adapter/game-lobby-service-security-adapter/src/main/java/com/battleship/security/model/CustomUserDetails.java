@@ -1,6 +1,5 @@
-package com.battleship.authservice.security;
+package com.battleship.security.model;
 
-import com.battleship.authservice.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,29 +10,31 @@ import java.util.UUID;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final UserInfo userInfo;
+    private final List<SimpleGrantedAuthority> authorities;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(UserInfo user, List<SimpleGrantedAuthority> authorities) {
+        this.userInfo = user;
+        this.authorities = authorities;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_PLAYER"), new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPassword();
+    public UUID getId() {
+        return userInfo.getId();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return userInfo.getUsername();
     }
 
-    public UUID getId() {
-        return user.getId();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.battleship.lobby.jwt;
+package com.battleship.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +23,10 @@ public class JwtUtils extends SecurityProperties.Filter {
             token = token.substring(7);
         }
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getUserIdFromJwtToken(String token) {
+        return (String) Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userId");
     }
 
     public String[] getRoleNamesFromJwtToken(String token) {

@@ -1,6 +1,7 @@
 package com.battleship.lobby.service;
 
 import com.battleship.lobby.model.GameLobbyModel;
+import com.battleship.lobby.model.PlayerInfo;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface GameLobbyService {
 
     List<GameLobbyModel> findAvailableGameLobby();
 
-    GameLobbyModel joinGameLobby(Integer gameLobbyId, String userName);
+    GameLobbyModel joinGameLobby(Integer gameLobbyId, PlayerInfo playerInfo);
 }

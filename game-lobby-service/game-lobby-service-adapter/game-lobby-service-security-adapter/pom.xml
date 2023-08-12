@@ -7,10 +7,9 @@
         <groupId>com.battleship</groupId>
         <artifactId>game-lobby-service</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>game-lobby-service-rest-adapter</artifactId>
+    <artifactId>game-lobby-service-security-adapter</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -19,20 +18,19 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.12</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.battleship</groupId>
-            <artifactId>game-lobby-service-security-adapter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
         </dependency>
     </dependencies>
     <build>

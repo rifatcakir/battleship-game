@@ -25,8 +25,8 @@ public class GameLobbyPublisherImpl implements GameLobbyPublisher {
     private GameLobbyMessage toMessage(GameLobbyModel gameLobby) {
         GameLobbyMessage message = new GameLobbyMessage();
         message.setGameLobbyId(gameLobby.getGameLobbyId());
-        message.setPlayer1Name(gameLobby.getPlayer1Name());
-        message.setPlayer2Name(gameLobby.getPlayer2Name());
+        message.setPlayer1Name("gameLobby.getPlayer1Name()"); //TODO FIX WITH UUID
+        message.setPlayer2Name("gameLobby.getPlayer2Name()");
         return message;
     }
 }

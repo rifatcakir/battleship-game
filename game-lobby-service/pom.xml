@@ -17,6 +17,7 @@
         <module>game-lobby-service-adapter/game-lobby-service-rest-adapter</module>
         <module>game-lobby-service-adapter/game-lobby-service-db-adapter</module>
         <module>game-lobby-service-adapter/game-lobby-service-message-queue-adapter</module>
+        <module>game-lobby-service-adapter/game-lobby-service-security-adapter</module>
     </modules>
     <properties>
         <java.version>11</java.version>

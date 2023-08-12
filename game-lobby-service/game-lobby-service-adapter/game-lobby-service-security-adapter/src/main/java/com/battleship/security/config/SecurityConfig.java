@@ -1,9 +1,8 @@
-package com.battleship.lobby.config;
+package com.battleship.security.config;
 
-
-import com.battleship.lobby.jwt.JWTAccessDeniedHandler;
-import com.battleship.lobby.jwt.JwtAuthenticationEntryPoint;
-import com.battleship.lobby.jwt.JwtAuthenticationFilter;
+import com.battleship.security.jwt.JWTAccessDeniedHandler;
+import com.battleship.security.jwt.JwtAuthenticationEntryPoint;
+import com.battleship.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

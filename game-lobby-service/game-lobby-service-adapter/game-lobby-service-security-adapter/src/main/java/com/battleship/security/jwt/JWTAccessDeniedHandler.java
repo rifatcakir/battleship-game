@@ -1,4 +1,4 @@
-package com.battleship.lobby.jwt;
+package com.battleship.security.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -17,6 +17,4 @@ public class JWTAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.getOutputStream().println("{ \"error\": \"" + accessDeniedException.getMessage() + "\" }");
     }
-
-
 }
