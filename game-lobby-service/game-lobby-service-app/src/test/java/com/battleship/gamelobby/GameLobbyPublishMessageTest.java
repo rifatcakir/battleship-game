@@ -69,7 +69,7 @@ class GameLobbyPublishMessageTest {
     }
 
     private GameLobbyMessage getMessageSentInQueue() {
-        Integer messageCount = Objects.requireNonNull(rabbitTemplate.execute(it -> it.queueDeclare(queue, true, false, false, null))).getMessageCount();
+        Integer messageCount = Objects.requireNonNull(rabbitTemplate.execute(it -> it.queueDeclarePassive(queue))).getMessageCount();
         assertThat(messageCount).isEqualTo(1);
         return rabbitTemplate.receiveAndConvert(queue, new ParameterizedTypeReference<>() {
         });

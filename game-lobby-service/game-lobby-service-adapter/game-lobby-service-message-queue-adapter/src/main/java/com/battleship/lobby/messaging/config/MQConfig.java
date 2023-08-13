@@ -14,32 +14,38 @@ public class MQConfig {
 
     @Value("${battleship.rabbitmq.queue}")
     private String queue;
+    @Value("${battleship.rabbitmq.deadletter.queue}")
+    private String deadLetterQueue;
 
     @Value("${battleship.rabbitmq.exchange}")
     private String exchange;
+    @Value("${battleship.rabbitmq.deadletter.exchange}")
+    private String deadLetterExchange;
 
     @Value("${battleship.rabbitmq.routingkey}")
     private String routingKey;
+    @Value("${battleship.rabbitmq.deadletter.routingkey}")
+    private String deadLetterRoutingKey;
 
     @Bean
     DirectExchange deadLetterExchange() {
-        return new DirectExchange("deadLetterExchange");
+        return new DirectExchange(deadLetterExchange);
     }
 
     @Bean
     Queue dlq() {
-        return QueueBuilder.durable("deadLetter.queue").build();
+        return QueueBuilder.durable(deadLetterQueue).build();
     }
 
     @Bean
     public Queue queue() {
-        return QueueBuilder.durable(queue).withArgument("x-dead-letter-exchange", "deadLetterExchange")
-                .withArgument("x-dead-letter-routing-key", "deadLetter").build();
+        return QueueBuilder.durable(queue).withArgument("x-dead-letter-exchange", deadLetterExchange)
+                .withArgument("x-dead-letter-routing-key", deadLetterRoutingKey).build();
     }
 
     @Bean
     Binding DLQbinding() {
-        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with("deadLetter");
+        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with(deadLetterRoutingKey);
     }
 
     @Bean

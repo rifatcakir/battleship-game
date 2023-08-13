@@ -32,3 +32,7 @@ battleship:
     exchange: lobby.message.exchange
     queue: lobby.message.queue
     routingkey: lobby.message.routingkey
+    deadletter:
+      exchange: deadLetterExchange
+      queueu: deadLetter.queue
+      routingkey: deadLetter
