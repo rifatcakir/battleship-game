@@ -20,6 +20,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,7 +50,7 @@ class GameLobbyJoinServiceTest {
     @Test
     @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinGameLobbyShouldReturns200WithAvailableLobby() throws Exception {
-        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(1, "Jane", null));
+        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", null));
 
         MvcResult response = mockMvc.perform(post(baseUrl + "/join/" + createdMockGameLobby.getGameLobbyId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -71,7 +73,7 @@ class GameLobbyJoinServiceTest {
     @Test
     @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinFullGameLobbyShouldThrowsGameLobbyNotAvailableException() throws Exception {
-        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(1, "Jane", "Gerrard"));
+        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", "Gerrard"));
 
         mockMvc.perform(post(baseUrl + "/join/" + createdMockGameLobby.getGameLobbyId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

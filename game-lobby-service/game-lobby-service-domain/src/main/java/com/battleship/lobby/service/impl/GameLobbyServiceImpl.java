@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class GameLobbyServiceImpl implements GameLobbyService {
 
     @Override
     @Transactional
-    public GameLobbyModel joinGameLobby(Integer gameLobbyId, String userName) {
+    public GameLobbyModel joinGameLobby(UUID gameLobbyId, String userName) {
         GameLobbyModel gameLobby = gameLobbyRepository.findGameLobbyById(gameLobbyId)
                 .orElseThrow(GameLobbyNotFoundException::new);
 

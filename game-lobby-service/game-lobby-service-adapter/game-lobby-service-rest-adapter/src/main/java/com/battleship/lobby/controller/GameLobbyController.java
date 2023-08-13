@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Game Lobby", description = "Game lobby actions")
 @RequestMapping(value = "/game-lobby")
@@ -31,5 +32,5 @@ public interface GameLobbyController {
     @Operation(summary = "Join available game lobby", description = "Join available Game lobby endpoint", tags = "GameLobby")
     @PreAuthorize("hasAuthority('ROLE_PLAYER')")
     @PostMapping("/join/{id}")
-    ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, @PathVariable(value = "id") Integer gameLobbyId);
+    ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, @PathVariable(value = "id") UUID gameLobbyId);
 }

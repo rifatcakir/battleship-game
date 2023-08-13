@@ -1,9 +1,9 @@
 package com.battleship.gameengine.repository;
 
-import com.battleship.gameengine.entity.User;
+import com.battleship.gameengine.entity.BattleshipGameBoardEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, Integer> {
+public interface BattleshipGameBoardRepository extends MongoRepository<BattleshipGameBoardEntity, Integer> {
 }

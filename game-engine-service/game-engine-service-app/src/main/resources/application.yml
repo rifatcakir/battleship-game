@@ -37,3 +37,6 @@ battleship:
     secret: mySecretKey
   rabbitmq:
     queue: lobby.message.queue
+  game:
+    rowSize: 10
+    columnSize: 10

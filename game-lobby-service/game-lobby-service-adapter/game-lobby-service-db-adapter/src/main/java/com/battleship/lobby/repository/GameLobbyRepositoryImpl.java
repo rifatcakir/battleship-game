@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +28,7 @@ public class GameLobbyRepositoryImpl implements GameLobbyRepository {
     }
 
     @Override
-    public Optional<GameLobbyModel> findGameLobbyById(Integer gameLobbyId) {
+    public Optional<GameLobbyModel> findGameLobbyById(UUID gameLobbyId) {
         Optional<GameLobby> gameLobby = gameLobbyMysqlRepository.findById(gameLobbyId);
         return gameLobby.map(this::toDomainModel);
     }

@@ -1,5 +1,8 @@
 package com.battleship.engine.repository;
 
+import com.battleship.engine.model.BattleshipGameBoard;
+import com.battleship.engine.model.GameCreateRequest;
+
 public interface GameBoardRepository {
-    void createGameBoard();
+    BattleshipGameBoard createGameBoard(GameCreateRequest message);
 }

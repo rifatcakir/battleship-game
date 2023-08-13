@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,7 +55,7 @@ class GameLobbyPublishMessageTest {
     @Test
     @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinGameLobbyShouldSentMessageToQueue() throws Exception {
-        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(1, "Jane", null));
+        GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", null));
 
         mockMvc.perform(post(baseUrl + "/join/" + createdMockGameLobby.getGameLobbyId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

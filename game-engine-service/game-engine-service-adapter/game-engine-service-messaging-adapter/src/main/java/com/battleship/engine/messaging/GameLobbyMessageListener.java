@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class GameLobbyMessageListener {
 
     @Autowired
-    private GameLobbyCreateListener gameLobbyCreateListener;
+    private GameLobbyCreator gameLobbyCreator;
 
     @RabbitListener(queues = {"${battleship.rabbitmq.queue}"})
     public void listener(GameLobbyMessage message) {
-        gameLobbyCreateListener.listener(toDomain(message));
+        gameLobbyCreator.listener(toDomain(message));
     }
 
     private GameCreateRequest toDomain(GameLobbyMessage message) {

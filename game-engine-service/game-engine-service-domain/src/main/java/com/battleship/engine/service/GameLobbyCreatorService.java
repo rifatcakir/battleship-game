@@ -1,19 +1,21 @@
 package com.battleship.engine.service;
 
-import com.battleship.engine.messaging.GameLobbyCreateListener;
+import com.battleship.engine.messaging.GameLobbyCreator;
+import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.GameCreateRequest;
 import com.battleship.engine.repository.GameBoardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameLobbyCreateListenerImpl implements GameLobbyCreateListener {
+@Slf4j
+public class GameLobbyCreatorService implements GameLobbyCreator {
     @Autowired
     private GameBoardRepository gameBoardRepository;
     @Override
     public void listener(GameCreateRequest message) {
-        System.out.println(message.getGameLobbyId() + message.getPlayer1Name());
-        System.out.println("------------------------");
-        gameBoardRepository.createGameBoard();
+        BattleshipGameBoard gameLobby = gameBoardRepository.createGameBoard(message);
+        log.info(String.format("Game lobby created with id= [%s]", gameLobby.getGameId()));
     }
 }

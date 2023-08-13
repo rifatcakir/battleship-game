@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class GameLobbyControllerImpl implements GameLobbyController {
     }
 
     @Override
-    public ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, Integer gameLobbyJoin) {
+    public ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, UUID gameLobbyJoin) {
         return ResponseEntity.ok(gameLobbyService.joinGameLobby(gameLobbyJoin, request.getUserPrincipal().getName()));
     }
 }

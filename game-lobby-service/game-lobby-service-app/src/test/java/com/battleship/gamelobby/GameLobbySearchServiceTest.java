@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,8 +51,8 @@ class GameLobbySearchServiceTest {
     @Test
     @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void searchingGameLobbyShouldReturns200WithAvailableLobby() throws Exception {
-        List<GameLobby> givenLobbies = List.of(new GameLobby(1, "Jane", null),
-                new GameLobby(2, "Johan", null));
+        List<GameLobby> givenLobbies = List.of(new GameLobby(UUID.randomUUID(), "Jane", null),
+                new GameLobby(UUID.randomUUID(), "Johan", null));
 
         gameLobbyMysqlRepository.saveAll(givenLobbies);
 
@@ -75,8 +76,8 @@ class GameLobbySearchServiceTest {
     @Test
     @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void searchingGameLobbyShouldReturnsOnlyAvailableLobby() throws Exception {
-        List<GameLobby> givenLobbies = List.of(new GameLobby(1, "Jane", null),
-                new GameLobby(2, "Johan", "Gerrard"));
+        List<GameLobby> givenLobbies = List.of(new GameLobby(UUID.randomUUID(), "Jane", null),
+                new GameLobby(UUID.randomUUID(), "Johan", "Gerrard"));
 
         gameLobbyMysqlRepository.saveAll(givenLobbies);
 
