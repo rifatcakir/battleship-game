@@ -34,5 +34,5 @@ battleship:
     routingkey: lobby.message.routingkey
     deadletter:
       exchange: deadLetterExchange
-      queueu: deadLetter.queue
+      queue: deadLetter.queue
       routingkey: deadLetter

@@ -16,8 +16,14 @@ spring:
     hibernate:
       ddl-auto: create
 
+eureka:
+  client:
+    enabled: false
+
 springdoc:
   packagesToScan: com.battleship.gamelobby
+
+
 
 
 battleship:
@@ -27,4 +33,8 @@ battleship:
     exchange: lobby.message.exchange
     queue: lobby.message.queue
     routingkey: lobby.message.routingkey
+    deadletter:
+      exchange: deadLetterExchange
+      queue: deadLetter.queue
+      routingkey: deadLetter
 
