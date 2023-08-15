@@ -1,14 +1,15 @@
 package com.battleship.engine.model;
 
-import com.battleship.engine.model.enums.CellStateDomain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class BoardCell {
-    private ShipInfo shipInfo;
-    private CellStateDomain state;
+public class ShipInfo {
+    private UUID shipGroupId;
+    private ShipType shipType;
 }

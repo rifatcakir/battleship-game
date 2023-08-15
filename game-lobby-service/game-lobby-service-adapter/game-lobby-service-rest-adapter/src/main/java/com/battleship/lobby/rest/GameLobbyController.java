@@ -1,4 +1,4 @@
-package com.battleship.lobby.controller;
+package com.battleship.lobby.rest;
 
 import com.battleship.lobby.model.GameLobbyModel;
 import io.swagger.v3.oas.annotations.Operation;

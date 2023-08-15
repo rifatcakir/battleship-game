@@ -31,17 +31,12 @@ public class JwtAuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        log.info("JwtAuthenticationFilter | filter is working");
-
         ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
 
         final List<String> apiEndpoints = List.of("/signup", "/login");
 
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
-
-        log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + isApiSecured.test(request));
-
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey("Authorization")) {
                 ServerHttpResponse response = exchange.getResponse();
@@ -53,12 +48,9 @@ public class JwtAuthenticationFilter implements GatewayFilter {
             final String authorization = request.getHeaders().getOrEmpty("Authorization").get(0);
             final String token = authorization.replace("Bearer ", "");
 
-            log.info("JwtAuthenticationFilter | filter | token : " + token);
-
             try {
                 jwtUtils.validateJwtToken(token);
             } catch (ExpiredJwtException e) {
-                log.info("JwtAuthenticationFilter | filter | ExpiredJwtException | error : " + e.getMessage());
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
 

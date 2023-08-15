@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(req);
-            log.error("AuthTokenFilter | doFilterInternal | jwt: {}", jwt);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
@@ -61,12 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String headerAuth = request.getHeader("Authorization");
 
-        log.info("AuthTokenFilter | parseJwt | headerAuth: {}", headerAuth);
-
         if (StringUtils.hasText(headerAuth)) {
-
-            log.info("AuthTokenFilter | parseJwt | parseJwt: {}", headerAuth.substring(7));
-
             return headerAuth.substring(7);
         }
 

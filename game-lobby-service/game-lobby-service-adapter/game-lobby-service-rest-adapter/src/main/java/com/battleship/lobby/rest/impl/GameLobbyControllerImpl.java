@@ -1,7 +1,7 @@
-package com.battleship.lobby.controller.impl;
+package com.battleship.lobby.rest.impl;
 
-import com.battleship.lobby.controller.GameLobbyController;
 import com.battleship.lobby.model.GameLobbyModel;
+import com.battleship.lobby.rest.GameLobbyController;
 import com.battleship.lobby.service.GameLobbyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

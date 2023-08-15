@@ -17,6 +17,7 @@
         <module>game-engine-service-adapter/game-engine-service-messaging-adapter</module>
         <module>game-engine-service-adapter/game-engine-service-db-adapter</module>
         <module>game-engine-service-adapter/game-engine-service-security</module>
+        <module>game-engine-service-adapter/game-engine-service-rest-adapter</module>
     </modules>
     <properties>
         <java.version>11</java.version>

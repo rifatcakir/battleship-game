@@ -60,13 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
 
         String headerAuth = request.getHeader("Authorization");
-
-        log.info("AuthTokenFilter | parseJwt | headerAuth: {}", headerAuth);
-
         if (StringUtils.hasText(headerAuth)) {
-
-            log.info("AuthTokenFilter | parseJwt | parseJwt: {}", headerAuth.substring(7));
-
             return headerAuth.substring(7);
         }
 

@@ -31,7 +31,6 @@ spring:
 springdoc:
   packagesToScan: com.battleship.gameengine
 
-
 battleship:
   jwt:
     secret: mySecretKey

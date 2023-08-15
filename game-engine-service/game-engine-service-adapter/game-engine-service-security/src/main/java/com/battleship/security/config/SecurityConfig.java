@@ -28,8 +28,8 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/game-lobby/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/game-lobby/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/game-engine/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/game-engine/**").hasRole("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
