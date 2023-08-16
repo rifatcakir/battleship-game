@@ -1,6 +1,6 @@
 package com.battleship.gameengine.entity;
 
-import com.battleship.gameengine.entity.enums.CellState;
+import com.battleship.gameengine.entity.enums.CellStateEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class BoardCellEntity {
-    private CellState state;
+    private ShipInfoEntity shipInfo;
+    private CellStateEntity state;
 }

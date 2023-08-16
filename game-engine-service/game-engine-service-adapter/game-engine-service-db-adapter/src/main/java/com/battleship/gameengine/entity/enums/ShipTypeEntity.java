@@ -1,6 +1,6 @@
-package com.battleship.rest.model;
+package com.battleship.gameengine.entity.enums;
 
-public enum ShipTypeApi {
+public enum ShipTypeEntity {
     AIRCRAFT_CARRIER,
     BATTLESHIP,
     CRUISER,

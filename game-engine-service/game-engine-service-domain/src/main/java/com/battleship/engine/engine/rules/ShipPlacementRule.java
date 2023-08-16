@@ -8,30 +8,73 @@ import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.ShipInfo;
 import com.battleship.engine.model.ShipType;
 import com.battleship.engine.model.enums.CellStateDomain;
+import com.battleship.engine.model.enums.PlayerBoardStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Component
 public class ShipPlacementRule implements Rule {
+
+    private final Integer MAX_SHIP_PLACE_LIMIT = 5;
+    private final Boolean SAME_SHIP_USAGE_ALLOWED = false;
+
     @Override
     public void applyRule(Parameter param) {
         if (!(param instanceof ShipPlacementParameter)) return;
         var shipPlacementParameter = (ShipPlacementParameter) param;
 
-        if (!verifyCellPositionsAreValid(shipPlacementParameter)) {
+        shipPlacementPreProcess(shipPlacementParameter);
+        shipPlacementProcess(shipPlacementParameter);
+        shipPlacementPostProcess(shipPlacementParameter);
+    }
+
+    private void shipPlacementPostProcess(ShipPlacementParameter shipPlacementParameter) {
+        var playerBoard = shipPlacementParameter.getPlayerBoardDomain();
+        if (shipPlacementCompleted(playerBoard.getBoardCells())) {
+            playerBoard.setPlayerBoardStatus(PlayerBoardStatus.ON_GOING);
+        }
+    }
+
+    private void shipPlacementProcess(ShipPlacementParameter param) {
+        UUID shipGroupId = UUID.randomUUID();
+        for (CellPosition position : param.getPositions()) {
+            placeShipAtPosition(shipGroupId, position, param);
+        }
+    }
+
+    private void shipPlacementPreProcess(ShipPlacementParameter shipPlacementParameter) {
+        if (shipPlacementParameter.getPlayerBoardDomain().getPlayerBoardStatus() != PlayerBoardStatus.SHIP_PLACEMENT) {
+            throw new IllegalArgumentException();
+        }
+
+        if (SAME_SHIP_USAGE_ALLOWED || !verifyShipNotPlacedBefore(shipPlacementParameter.getShipType(), shipPlacementParameter.getPlayerBoardDomain())) {
             throw new IllegalArgumentException("Cell positions are not valid!"); // TODO FIX
         }
 
-        UUID shipGroupId = UUID.randomUUID();
-        for (CellPosition position : shipPlacementParameter.getPositions()) {
-            placeShipAtPosition(shipGroupId, position, shipPlacementParameter);
+        if (!verifyCellPositionsAreValid(shipPlacementParameter)) {
+            throw new IllegalArgumentException("Cell positions are not valid!"); // TODO FIX
         }
+    }
+
+    private boolean verifyShipNotPlacedBefore(ShipType shipType, PlayerBoardDomain playerBoardDomain) {
+        return Arrays.stream(playerBoardDomain.getBoardCells())
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .noneMatch(it -> it.getShipInfo().getShipType() == shipType);
+    }
+
+    private boolean shipPlacementCompleted(BoardCell[][] boardCells) {
+        long uniqueShipCounts =
+                Arrays.stream(boardCells)
+                        .flatMap(Arrays::stream)
+                        .filter(Objects::nonNull)
+                        .map(it -> it.getShipInfo().getShipGroupId())
+                        .distinct().count();
+
+        return uniqueShipCounts == MAX_SHIP_PLACE_LIMIT;
     }
 
     private boolean verifyCellPositionsAreValid(ShipPlacementParameter param) {

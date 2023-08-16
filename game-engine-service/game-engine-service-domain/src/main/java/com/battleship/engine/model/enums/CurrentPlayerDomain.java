@@ -1,9 +1,9 @@
 package com.battleship.engine.model.enums;
 
-public enum CurrentTurnDomain {
+public enum CurrentPlayerDomain {
     PLAYER1, PLAYER2;
 
-    public CurrentTurnDomain nextPlayer() {
+    public CurrentPlayerDomain nextPlayer() {
         return (this == PLAYER1) ? PLAYER2 : PLAYER1;
     }
 }

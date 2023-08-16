@@ -1,5 +1,6 @@
 package com.battleship.engine.model;
 
+import com.battleship.engine.model.enums.CurrentPlayerDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PlayerBoardDomain {
+    private CurrentPlayerDomain currentPlayerDomain;
     private String playerName;
     private BoardCell[][] boardCells;
     private PlayerBoardStatus playerBoardStatus;

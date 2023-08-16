@@ -5,13 +5,16 @@ import com.battleship.engine.engine.parameters.Parameter;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
+import com.battleship.engine.model.enums.CellStateDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class GameStatusCheckRule implements Rule {
@@ -21,29 +24,31 @@ public class GameStatusCheckRule implements Rule {
         var checkParameter = (GameStatusCheckParameter) param;
 
         BattleshipGameBoard battleshipGameBoard = checkParameter.getBattleshipGameBoard();
+        var playerBoards = battleshipGameBoard.getPlayerBoards();
 
-        if (validatePlayerShipPlacementsClosed(battleshipGameBoard.getPlayerBoards())) {
-            battleshipGameBoard.setStatus(GameStatusDomain.ONGOING);
+
+        boolean gameIsOver = checkGameOver(playerBoards.stream().filter(it -> it.getCurrentPlayerDomain() != battleshipGameBoard.getCurrentPlayer()).findFirst());
+
+        if (gameIsOver) {
+            battleshipGameBoard.setStatus(GameStatusDomain.byPlayerType(battleshipGameBoard.getCurrentPlayer()));
         }
     }
 
-    private boolean validatePlayerShipPlacementsClosed(List<PlayerBoardDomain> playerBoardDomains) {
-        var shipPlacementOn = playerBoardDomains.stream().noneMatch(playerBoardDomain ->
-                playerBoardDomain.getPlayerBoardStatus() == PlayerBoardStatus.SHIP_PLACEMENT);
-
-        if (!shipPlacementOn) return false;
-
-        playerBoardDomains.stream().filter(board -> board.getPlayerBoardStatus() == PlayerBoardStatus.SHIP_PLACEMENT)
-                .forEach(board -> {
-                    if (shipPlacementCompleted(board.getBoardCells())) {
-                        board.setPlayerBoardStatus(PlayerBoardStatus.ON_GOING);
-                    }
-                });
-
-        return playerBoardDomains.stream().noneMatch(playerBoardDomain ->
-                playerBoardDomain.getPlayerBoardStatus() == PlayerBoardStatus.SHIP_PLACEMENT);
-
+    private boolean checkGameOver(Optional<PlayerBoardDomain> enemyPlayerBoard) {
+        return enemyPlayerBoard.isPresent() && allShipsAreHit(enemyPlayerBoard.get());
     }
+
+    private boolean allShipsAreHit(PlayerBoardDomain enemyPlayerBoard) {
+        if (enemyPlayerBoard.getPlayerBoardStatus() != PlayerBoardStatus.ON_GOING) return false;
+        Set<Boolean> allShipsStatus = Arrays.stream(enemyPlayerBoard.getBoardCells())
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .map(it -> it.getState() == CellStateDomain.SUNK)
+                .collect(Collectors.toSet());
+
+        return allShipsStatus.size() == 1 && allShipsStatus.iterator().next();
+    }
+
 
     private boolean shipPlacementCompleted(BoardCell[][] boardCells) {
         long uniqueShipCounts =

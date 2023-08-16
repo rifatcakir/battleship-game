@@ -1,7 +1,7 @@
 package com.battleship.engine.model;
 
 import com.battleship.engine.exception.GameNotFound;
-import com.battleship.engine.model.enums.CurrentTurnDomain;
+import com.battleship.engine.model.enums.CurrentPlayerDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class BattleshipGameBoard {
     private UUID gameId;
     private List<PlayerBoardDomain> playerBoards;
-    private CurrentTurnDomain currentTurnDomain;
+    private CurrentPlayerDomain currentPlayer;
     private GameStatusDomain status;
     private OffsetDateTime startDate;
     private OffsetDateTime endDate;

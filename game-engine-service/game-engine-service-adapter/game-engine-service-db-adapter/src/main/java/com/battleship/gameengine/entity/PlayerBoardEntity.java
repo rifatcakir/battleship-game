@@ -1,5 +1,6 @@
 package com.battleship.gameengine.entity;
 
+import com.battleship.gameengine.entity.enums.CurrentPlayerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PlayerBoardEntity {
     private String playerName;
-    private BoardCellEntity[][] boardCellEntities;
+    private CurrentPlayerEntity player;
+    private BoardCellEntity[][] boardCell;
     private PlayerBoardStatusEntity playerBoardStatus;
 
 }

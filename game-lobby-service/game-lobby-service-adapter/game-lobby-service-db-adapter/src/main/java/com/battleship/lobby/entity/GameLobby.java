@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "GameLobby")
+@Table(name = "gameLobby")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
