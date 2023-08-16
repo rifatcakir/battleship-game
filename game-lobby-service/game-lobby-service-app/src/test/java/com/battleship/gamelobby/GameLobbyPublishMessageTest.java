@@ -53,7 +53,7 @@ class GameLobbyPublishMessageTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinGameLobbyShouldSentMessageToQueue() throws Exception {
         GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", null));
 

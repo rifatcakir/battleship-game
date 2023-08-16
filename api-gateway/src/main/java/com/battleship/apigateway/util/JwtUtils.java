@@ -25,10 +25,9 @@ public class JwtUtils {
     }
 
 
-    public boolean validateJwtToken(String authToken) {
+    public void validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
         } catch (SignatureException e) {
             throw new SignatureException(e.getMessage());
         } catch (MalformedJwtException e) {

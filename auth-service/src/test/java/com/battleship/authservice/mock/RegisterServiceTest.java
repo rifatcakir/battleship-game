@@ -38,13 +38,12 @@ public class RegisterServiceTest {
         User mockUser = MockObject.user();
         given(userService.existsByUsername(mockUser.getUsername())).willReturn(false);
 
-        User mockUserEncoded = mockUser;
-        mockUserEncoded.setPassword("encodedPassword");
-        given(passwordEncoder.encode(any())).willReturn(mockUserEncoded.getPassword());
+        mockUser.setPassword("encodedPassword");
+        given(passwordEncoder.encode(any())).willReturn(mockUser.getPassword());
 
         var registerResponse = registerService.registerUser(mockUser.getUsername(), mockUser.getPassword());
 
-        verify(userService, times(1)).saveUser(mockUserEncoded);
+        verify(userService, times(1)).saveUser(mockUser);
 
         assertThat(registerResponse.getMessage(), is(equalTo("User registered successfully!")));
     }

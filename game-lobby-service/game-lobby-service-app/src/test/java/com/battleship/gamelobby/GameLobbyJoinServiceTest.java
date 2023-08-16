@@ -48,7 +48,7 @@ class GameLobbyJoinServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinGameLobbyShouldReturns200WithAvailableLobby() throws Exception {
         GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", null));
 
@@ -64,14 +64,14 @@ class GameLobbyJoinServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinNotExistsGameLobbyShouldThrowsGameLobbyNotFoundException() throws Exception {
-        mockMvc.perform(post(baseUrl + "/join/" + 12345).contentType(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(post(baseUrl + "/join/" + UUID.randomUUID()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof GameLobbyNotFoundException));
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void joinFullGameLobbyShouldThrowsGameLobbyNotAvailableException() throws Exception {
         GameLobby createdMockGameLobby = gameLobbyMysqlRepository.save(new GameLobby(UUID.randomUUID(), "Jane", "Gerrard"));
 

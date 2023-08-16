@@ -13,7 +13,7 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
-    private RouteLocator locator;
+    private final RouteLocator locator;
 
     public OpenAPIConfig(RouteLocator locator) {
         this.locator = locator;

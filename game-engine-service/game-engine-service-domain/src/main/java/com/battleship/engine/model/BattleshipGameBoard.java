@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -19,11 +20,11 @@ public class BattleshipGameBoard {
     private OffsetDateTime startDate;
     private OffsetDateTime endDate;
 
-    public PlayerBoardDomain getPlayerBoardByPlayerName(String playerName) {
-        return playerBoards.stream().filter(it -> it.getPlayerName().equals(playerName)).findFirst().get();
+    public Optional<PlayerBoardDomain> getPlayerBoardByPlayerName(String playerName) {
+        return playerBoards.stream().filter(it -> it.getPlayerName().equals(playerName)).findFirst();
     }
 
-    public PlayerBoardDomain getEnemyPlayerBoardByPlayerName(String playerName) {
-        return playerBoards.stream().filter(it -> !it.getPlayerName().equals(playerName)).findFirst().get();
+    public Optional<PlayerBoardDomain> getEnemyPlayerBoardByPlayerName(String playerName) {
+        return playerBoards.stream().filter(it -> !it.getPlayerName().equals(playerName)).findFirst();
     }
 }

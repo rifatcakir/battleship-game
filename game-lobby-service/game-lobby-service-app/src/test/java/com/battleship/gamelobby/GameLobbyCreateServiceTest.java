@@ -39,7 +39,7 @@ class GameLobbyCreateServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void creatingNewGameLobbyShouldReturns200WhenUserAuthenticated() throws Exception {
 
         MvcResult response = mockMvc.perform(post(baseUrl + "/create")

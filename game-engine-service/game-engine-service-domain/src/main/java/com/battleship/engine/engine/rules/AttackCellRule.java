@@ -96,7 +96,7 @@ public class AttackCellRule implements Rule {
 
     private void cellAttackPreProcess(GameStatusDomain gameStatus, CurrentPlayerDomain playerHasRightToPlay, CurrentPlayerDomain currentPlayer) {
         if (!gameStatus.equals(GameStatusDomain.ONGOING) || !playerHasRightToPlay.equals(currentPlayer)) {
-            //  throw new IllegalArgumentException(); // todo fix game not going on
+            throw new IllegalArgumentException(); // todo fix game not going on
         }
     }
 }

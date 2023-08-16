@@ -49,7 +49,7 @@ class GameLobbySearchServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void searchingGameLobbyShouldReturns200WithAvailableLobby() throws Exception {
         List<GameLobby> givenLobbies = List.of(new GameLobby(UUID.randomUUID(), "Jane", null),
                 new GameLobby(UUID.randomUUID(), "Johan", null));
@@ -74,7 +74,7 @@ class GameLobbySearchServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "John", roles = {"USER"}, authorities = {"ROLE_PLAYER", "ROLE_USER"})
+    @WithMockUser(username = "John", authorities = {"ROLE_PLAYER", "ROLE_USER"})
     void searchingGameLobbyShouldReturnsOnlyAvailableLobby() throws Exception {
         List<GameLobby> givenLobbies = List.of(new GameLobby(UUID.randomUUID(), "Jane", null),
                 new GameLobby(UUID.randomUUID(), "Johan", "Gerrard"));
