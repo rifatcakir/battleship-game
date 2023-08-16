@@ -20,6 +20,6 @@ public class PlayerTurnRule implements Rule {
     }
 
     private List<GameStatusDomain> playableGameStatus() {
-        return List.of(GameStatusDomain.SHIP_PLACING, GameStatusDomain.ONGOING);
+        return List.of(GameStatusDomain.SHIP_PLACEMENT, GameStatusDomain.ONGOING);
     }
 }

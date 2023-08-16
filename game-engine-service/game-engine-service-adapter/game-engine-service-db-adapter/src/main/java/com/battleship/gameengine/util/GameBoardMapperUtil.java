@@ -1,12 +1,18 @@
 package com.battleship.gameengine.util;
 
-import com.battleship.engine.model.*;
-import com.battleship.engine.model.enums.CellStateDomain;
+import com.battleship.engine.model.BattleshipGameBoard;
+import com.battleship.engine.model.BoardCell;
+import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.enums.CurrentPlayerDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
-import com.battleship.gameengine.entity.*;
-import com.battleship.gameengine.entity.enums.*;
+import com.battleship.gameengine.entity.BattleshipGameBoardEntity;
+import com.battleship.gameengine.entity.BoardCellEntity;
+import com.battleship.gameengine.entity.PlayerBoardEntity;
+import com.battleship.gameengine.entity.PlayerBoardStatusEntity;
+import com.battleship.gameengine.entity.enums.CurrentPlayerEntity;
+import com.battleship.gameengine.entity.enums.CurrentTurn;
+import com.battleship.gameengine.entity.enums.GameStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -85,17 +91,10 @@ public class GameBoardMapperUtil {
     }
 
     private BoardCell mapEntityToDomain(BoardCellEntity entity) {
-        return (entity == null) ? null :
-                new BoardCell(new ShipInfo(entity.getShipInfo().getShipGroupId(),
-                        ShipType.valueOf(entity.getShipInfo().getShipType().name())),
-                        CellStateDomain.valueOf(entity.getState().name()));
+        return BoardCellMapper.INSTANCE.entityBoardCellToDomain(entity);
     }
 
     private BoardCellEntity mapDomainToEntity(BoardCell cell) {
-        return (cell == null) ? null :
-                new BoardCellEntity(new ShipInfoEntity(cell.getShipInfo().getShipGroupId(),
-                        ShipTypeEntity.valueOf(cell.getShipInfo().getShipType().name())),
-                        CellStateEntity.valueOf(cell.getState().name()));
+        return BoardCellMapper.INSTANCE.domainBoardCellToEntity(cell);
     }
-
 }

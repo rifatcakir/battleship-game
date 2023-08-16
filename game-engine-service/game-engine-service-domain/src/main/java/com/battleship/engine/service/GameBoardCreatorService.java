@@ -46,7 +46,7 @@ public class GameBoardCreatorService implements GameBoardCreator {
                 new PlayerBoardDomain(CurrentPlayerDomain.PLAYER1, message.getPlayer1Name(), new BoardCell[gameRowSize][gameColumnSize], PlayerBoardStatus.SHIP_PLACEMENT),
                 new PlayerBoardDomain(CurrentPlayerDomain.PLAYER2, message.getPlayer2Name(), new BoardCell[gameRowSize][gameColumnSize], PlayerBoardStatus.SHIP_PLACEMENT)));
         gameBoard.setCurrentPlayer(CurrentPlayerDomain.PLAYER1);
-        gameBoard.setStatus(GameStatusDomain.SHIP_PLACING);
+        gameBoard.setStatus(GameStatusDomain.SHIP_PLACEMENT);
         gameBoard.setStartDate(OffsetDateTime.now());
         return gameBoard;
     }

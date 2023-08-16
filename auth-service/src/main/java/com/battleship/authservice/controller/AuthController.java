@@ -32,7 +32,19 @@ public class AuthController {
     private final RegisterService registerService;
     private final AuthenticateService authenticateService;
 
-    @Operation(summary = "Create new user", description = "User registration endpoint", tags = "Registration")
+    @Operation(
+            summary = "Create new user",
+            description = "User registration endpoint",
+            tags = "Registration"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "User successfully registered",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponse.class)
+            )
+    )
     @PostMapping("/signup")
     public ResponseEntity<MessageResponse> registerUser(@RequestBody SignUpRequest signUpRequest,
                                                         UriComponentsBuilder uriComponentsBuilder) {

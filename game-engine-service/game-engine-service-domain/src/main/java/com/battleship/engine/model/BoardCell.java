@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BoardCell {
     private ShipInfo shipInfo;
-    private CellStateDomain state;
+    private CellStateDomain ownerState;
+    private CellStateDomain enemyState;
 }

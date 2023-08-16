@@ -1,6 +1,5 @@
 package com.battleship.engine.model;
 
-import com.battleship.engine.exception.GameNotFound;
 import com.battleship.engine.model.enums.CurrentPlayerDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import lombok.Getter;
@@ -21,6 +20,10 @@ public class BattleshipGameBoard {
     private OffsetDateTime endDate;
 
     public PlayerBoardDomain getPlayerBoardByPlayerName(String playerName) {
-        return playerBoards.stream().filter(it -> it.getPlayerName().equals(playerName)).findFirst().orElseThrow(GameNotFound::new); // todo fix with new error
+        return playerBoards.stream().filter(it -> it.getPlayerName().equals(playerName)).findFirst().get();
+    }
+
+    public PlayerBoardDomain getEnemyPlayerBoardByPlayerName(String playerName) {
+        return playerBoards.stream().filter(it -> !it.getPlayerName().equals(playerName)).findFirst().get();
     }
 }

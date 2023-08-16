@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class ShipPlacementRule implements Rule {
 
-    private final Integer MAX_SHIP_PLACE_LIMIT = 5;
+    private final Integer MAX_SHIP_PLACE_LIMIT = 1;
     private final Boolean SAME_SHIP_USAGE_ALLOWED = false;
 
     @Override
@@ -34,7 +34,7 @@ public class ShipPlacementRule implements Rule {
     private void shipPlacementPostProcess(ShipPlacementParameter shipPlacementParameter) {
         var playerBoard = shipPlacementParameter.getPlayerBoardDomain();
         if (shipPlacementCompleted(playerBoard.getBoardCells())) {
-            playerBoard.setPlayerBoardStatus(PlayerBoardStatus.ON_GOING);
+            playerBoard.setPlayerBoardStatus(PlayerBoardStatus.ONGOING);
         }
     }
 
@@ -71,6 +71,7 @@ public class ShipPlacementRule implements Rule {
                 Arrays.stream(boardCells)
                         .flatMap(Arrays::stream)
                         .filter(Objects::nonNull)
+                        .filter(it -> it.getShipInfo() != null)
                         .map(it -> it.getShipInfo().getShipGroupId())
                         .distinct().count();
 
@@ -104,7 +105,7 @@ public class ShipPlacementRule implements Rule {
     }
 
     private BoardCell createNewCell(UUID shipGroupId, ShipType shipType) {
-        return new BoardCell(new ShipInfo(shipGroupId, shipType), CellStateDomain.SHIP);
+        return new BoardCell(new ShipInfo(shipGroupId, shipType), CellStateDomain.SHIP, null);
     }
 
     private boolean isHorizontal(List<Integer> xPositions, List<Integer> yPositions) {
