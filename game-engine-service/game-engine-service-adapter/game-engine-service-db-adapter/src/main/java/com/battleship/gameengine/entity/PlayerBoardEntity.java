@@ -10,5 +10,6 @@ import lombok.Setter;
 public class PlayerBoardEntity {
     private String playerName;
     private BoardCellEntity[][] boardCellEntities;
+    private PlayerBoardStatusEntity playerBoardStatus;
 
 }

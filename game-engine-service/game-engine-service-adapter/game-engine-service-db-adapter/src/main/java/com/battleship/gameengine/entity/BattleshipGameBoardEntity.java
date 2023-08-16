@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Document("battleshipGameBoard")
@@ -18,8 +19,7 @@ import java.util.UUID;
 public class BattleshipGameBoardEntity {
     @Id
     private UUID gameId;
-    private PlayerBoardEntity player1Board;
-    private PlayerBoardEntity player2Board;
+    private List<PlayerBoardEntity> playerBoards;
     private CurrentTurn currentTurn;
     private GameStatus status;
     private OffsetDateTime startDate;

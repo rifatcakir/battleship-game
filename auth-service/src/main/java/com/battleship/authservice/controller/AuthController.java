@@ -3,6 +3,7 @@ package com.battleship.authservice.controller;
 import com.battleship.authservice.payload.request.LoginRequest;
 import com.battleship.authservice.payload.request.SignUpRequest;
 import com.battleship.authservice.payload.response.JWTResponse;
+import com.battleship.authservice.payload.response.MessageResponse;
 import com.battleship.authservice.service.AuthenticateService;
 import com.battleship.authservice.service.RegisterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,8 +34,8 @@ public class AuthController {
 
     @Operation(summary = "Create new user", description = "User registration endpoint", tags = "Registration")
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest,
-                                          UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<MessageResponse> registerUser(@RequestBody SignUpRequest signUpRequest,
+                                                        UriComponentsBuilder uriComponentsBuilder) {
         var location = uriComponentsBuilder.path("/login")
                 .buildAndExpand().toUri();
         return ResponseEntity.created(location).body(registerService.registerUser(signUpRequest.getUsername(), signUpRequest.getPassword()));

@@ -1,11 +1,11 @@
-package com.battleship.engine.engine.rule.model;
+package com.battleship.rest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class CellPosition {
+public class CellPositionApi {
     private int x;
     private int y;
 }

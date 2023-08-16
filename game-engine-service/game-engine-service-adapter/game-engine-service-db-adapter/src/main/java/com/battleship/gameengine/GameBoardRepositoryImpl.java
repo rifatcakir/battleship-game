@@ -7,19 +7,24 @@ import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.enums.CellStateDomain;
 import com.battleship.engine.model.enums.CurrentTurnDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
+import com.battleship.engine.model.enums.PlayerBoardStatus;
 import com.battleship.engine.repository.GameBoardRepository;
 import com.battleship.gameengine.entity.BattleshipGameBoardEntity;
 import com.battleship.gameengine.entity.BoardCellEntity;
 import com.battleship.gameengine.entity.PlayerBoardEntity;
+import com.battleship.gameengine.entity.PlayerBoardStatusEntity;
 import com.battleship.gameengine.entity.enums.CurrentTurn;
 import com.battleship.gameengine.entity.enums.GameStatus;
+import com.battleship.gameengine.exception.GameNotFound;
 import com.battleship.gameengine.repository.BattleshipGameBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class GameBoardRepositoryImpl implements GameBoardRepository {
@@ -41,6 +46,11 @@ public class GameBoardRepositoryImpl implements GameBoardRepository {
     }
 
     @Override
+    public BattleshipGameBoard findById(UUID gameLobbyId) {
+        return toDomain(battleshipGameBoardRepository.findById(gameLobbyId).orElseThrow(GameNotFound::new));
+    }
+
+    @Override
     public Boolean isGameBoardExists(UUID gameBoardId) {
         return battleshipGameBoardRepository.existsById(gameBoardId);
     }
@@ -48,8 +58,7 @@ public class GameBoardRepositoryImpl implements GameBoardRepository {
     private BattleshipGameBoard toDomain(BattleshipGameBoardEntity entity) {
         BattleshipGameBoard gameBoardDomain = new BattleshipGameBoard();
         gameBoardDomain.setGameId(entity.getGameId());
-        gameBoardDomain.setPlayer1Board(playerBoardEntityToDomain(entity.getPlayer1Board()));
-        gameBoardDomain.setPlayer2Board(playerBoardEntityToDomain(entity.getPlayer2Board()));
+        gameBoardDomain.setPlayerBoards(entity.getPlayerBoards().stream().map(this::playerBoardEntityToDomain).collect(Collectors.toList()));
         gameBoardDomain.setStartDate(entity.getStartDate());
         gameBoardDomain.setEndDate(entity.getEndDate());
         gameBoardDomain.setStatus(GameStatusDomain.valueOf(entity.getStatus().name()));
@@ -70,7 +79,7 @@ public class GameBoardRepositoryImpl implements GameBoardRepository {
         }
     */
     private PlayerBoardDomain playerBoardEntityToDomain(PlayerBoardEntity entity) {
-        return new PlayerBoardDomain(entity.getPlayerName(), cellEntityToDomain(entity.getBoardCellEntities()));
+        return new PlayerBoardDomain(entity.getPlayerName(), cellEntityToDomain(entity.getBoardCellEntities()), PlayerBoardStatus.valueOf(entity.getPlayerBoardStatus().name()));
     }
 
     private BoardCell[][] cellEntityToDomain(BoardCellEntity[][] boardCellEntities) {
@@ -98,8 +107,9 @@ public class GameBoardRepositoryImpl implements GameBoardRepository {
     private BattleshipGameBoardEntity gameCreateRequestToGameBoardEntity(GameCreateRequest message) {
         BattleshipGameBoardEntity gameBoard = new BattleshipGameBoardEntity();
         gameBoard.setGameId(message.getGameLobbyId());
-        gameBoard.setPlayer1Board(new PlayerBoardEntity(message.getPlayer1Name(), new BoardCellEntity[gameRowSize][gameColumnSize]));
-        gameBoard.setPlayer2Board(new PlayerBoardEntity(message.getPlayer2Name(), new BoardCellEntity[gameRowSize][gameColumnSize]));
+        gameBoard.setPlayerBoards(List.of(
+                new PlayerBoardEntity(message.getPlayer1Name(), new BoardCellEntity[gameRowSize][gameColumnSize], PlayerBoardStatusEntity.SHIP_PLACEMENT),
+                new PlayerBoardEntity(message.getPlayer2Name(), new BoardCellEntity[gameRowSize][gameColumnSize], PlayerBoardStatusEntity.SHIP_PLACEMENT)));
         gameBoard.setCurrentTurn(CurrentTurn.PLAYER1);
         gameBoard.setStatus(GameStatus.SHIP_PLACING);
         gameBoard.setStartDate(OffsetDateTime.now());

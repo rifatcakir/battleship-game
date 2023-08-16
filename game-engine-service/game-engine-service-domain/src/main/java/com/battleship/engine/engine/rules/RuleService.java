@@ -1,8 +1,7 @@
-package com.battleship.engine.engine.rule;
+package com.battleship.engine.engine.rules;
 
 
-import com.battleship.engine.engine.rule.parameters.Parameter;
-import com.battleship.engine.engine.rule.rules.Rule;
+import com.battleship.engine.engine.parameters.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
