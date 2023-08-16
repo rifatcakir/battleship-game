@@ -10,7 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class ShipPlacementParameter extends Parameter {
+public class PlaceShip extends Parameter {
     private PlayerBoardDomain playerBoardDomain;
     private ShipType shipType;
     private List<CellPosition> positions;

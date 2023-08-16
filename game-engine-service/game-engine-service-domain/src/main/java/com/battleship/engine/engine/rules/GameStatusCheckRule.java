@@ -1,6 +1,6 @@
 package com.battleship.engine.engine.rules;
 
-import com.battleship.engine.engine.parameters.GameStatusCheckParameter;
+import com.battleship.engine.engine.parameters.GameStatusCheck;
 import com.battleship.engine.engine.parameters.Parameter;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.PlayerBoardDomain;
@@ -21,8 +21,8 @@ import static com.battleship.engine.model.enums.PlayerBoardStatus.ONGOING;
 public class GameStatusCheckRule implements Rule {
     @Override
     public void applyRule(Parameter param) {
-        if (!(param instanceof GameStatusCheckParameter)) return;
-        var checkParameter = (GameStatusCheckParameter) param;
+        if (!(param instanceof GameStatusCheck)) return;
+        var checkParameter = (GameStatusCheck) param;
 
         BattleshipGameBoard battleshipGameBoard = checkParameter.getBattleshipGameBoard();
         var playerBoards = battleshipGameBoard.getPlayerBoards();

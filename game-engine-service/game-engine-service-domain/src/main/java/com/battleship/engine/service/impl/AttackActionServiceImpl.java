@@ -1,9 +1,9 @@
 package com.battleship.engine.service.impl;
 
 import com.battleship.engine.engine.model.CellPosition;
-import com.battleship.engine.engine.parameters.AttackCellParameter;
-import com.battleship.engine.engine.parameters.GameStatusCheckParameter;
-import com.battleship.engine.engine.parameters.PlayerTurnParameter;
+import com.battleship.engine.engine.parameters.AttackCell;
+import com.battleship.engine.engine.parameters.GameStatusCheck;
+import com.battleship.engine.engine.parameters.PlayerTurnCheck;
 import com.battleship.engine.engine.rules.RuleService;
 import com.battleship.engine.model.ActionStatus;
 import com.battleship.engine.model.BattleshipGameBoard;
@@ -31,7 +31,7 @@ public class AttackActionServiceImpl implements AttackActionService {
         PlayerBoardDomain enemyPlayerBoard = battleshipGameBoard.getEnemyPlayerBoardByPlayerName(playerName);
 
         ruleService.applyRule(
-                new AttackCellParameter(
+                new AttackCell(
                         battleshipGameBoard.getCurrentPlayer(),
                         battleshipGameBoard.getStatus(),
                         playerBoard,
@@ -40,8 +40,8 @@ public class AttackActionServiceImpl implements AttackActionService {
                 )
         );
 
-        ruleService.applyRule(new GameStatusCheckParameter(battleshipGameBoard));
-        ruleService.applyRule(new PlayerTurnParameter(battleshipGameBoard));
+        ruleService.applyRule(new GameStatusCheck(battleshipGameBoard));
+        ruleService.applyRule(new PlayerTurnCheck(battleshipGameBoard));
 
         gameBoardRepository.save(battleshipGameBoard);
 

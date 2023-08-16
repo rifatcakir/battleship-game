@@ -1,6 +1,6 @@
 package com.battleship.engine.engine.rules;
 
-import com.battleship.engine.engine.parameters.AttackCellParameter;
+import com.battleship.engine.engine.parameters.AttackCell;
 import com.battleship.engine.engine.parameters.Parameter;
 import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
@@ -29,8 +29,8 @@ public class AttackCellRule implements Rule {
 
     @Override
     public void applyRule(Parameter param) {
-        if (!(param instanceof AttackCellParameter)) return;
-        var attackCellParameter = (AttackCellParameter) param;
+        if (!(param instanceof AttackCell)) return;
+        var attackCellParameter = (AttackCell) param;
         int targetXCoordinate = attackCellParameter.getPosition().getX();
         int targetYCoordinate = attackCellParameter.getPosition().getY();
 

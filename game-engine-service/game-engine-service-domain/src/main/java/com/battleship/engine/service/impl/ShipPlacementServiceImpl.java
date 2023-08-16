@@ -1,8 +1,8 @@
 package com.battleship.engine.service.impl;
 
-import com.battleship.engine.engine.parameters.GameStatusCheckParameter;
+import com.battleship.engine.engine.parameters.GameStatusCheck;
 import com.battleship.engine.engine.parameters.Parameter;
-import com.battleship.engine.engine.parameters.ShipPlacementParameter;
+import com.battleship.engine.engine.parameters.PlaceShip;
 import com.battleship.engine.engine.rules.RuleService;
 import com.battleship.engine.model.ActionStatus;
 import com.battleship.engine.model.BattleshipGameBoard;
@@ -39,7 +39,7 @@ public class ShipPlacementServiceImpl implements ShipPlacementService {
                         shipPlacementRequest
                 )
         );
-        ruleService.applyRule(new GameStatusCheckParameter(battleshipGameBoard));
+        ruleService.applyRule(new GameStatusCheck(battleshipGameBoard));
 
         gameBoardRepository.save(battleshipGameBoard);
 
@@ -51,6 +51,6 @@ public class ShipPlacementServiceImpl implements ShipPlacementService {
     }
 
     private Parameter createShipPlacementParam(PlayerBoardDomain playerBoard, ShipPlacementRequest shipPlacementRequest) {
-        return new ShipPlacementParameter(playerBoard, shipPlacementRequest.getShipType(), shipPlacementRequest.getCellPositions());
+        return new PlaceShip(playerBoard, shipPlacementRequest.getShipType(), shipPlacementRequest.getCellPositions());
     }
 }

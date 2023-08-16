@@ -6,6 +6,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class GameStatusCheckParameter extends Parameter {
+public class GameStatusCheck extends Parameter {
     private BattleshipGameBoard battleshipGameBoard;
 }

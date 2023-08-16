@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class AttackCellParameter extends Parameter {
+public class AttackCell extends Parameter {
     private CurrentPlayerDomain currentPlayer;
     private GameStatusDomain gameStatus;
     private PlayerBoardDomain playerBoardDomain;
