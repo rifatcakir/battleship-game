@@ -3,6 +3,7 @@ package com.battleship.engine.engine.rules;
 import com.battleship.engine.engine.model.CellPosition;
 import com.battleship.engine.engine.parameters.Parameter;
 import com.battleship.engine.engine.parameters.PlaceShip;
+import com.battleship.engine.exception.InvalidGameAction;
 import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.ShipInfo;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class ShipPlacementRule implements Rule {
 
     private final Integer MAX_SHIP_PLACE_LIMIT = 1;
-    private final Boolean SAME_SHIP_USAGE_ALLOWED = false;
+    private final boolean SAME_SHIP_USAGE_ALLOWED = false;
 
     @Override
     public void applyRule(Parameter param) {
@@ -47,15 +48,15 @@ public class ShipPlacementRule implements Rule {
 
     private void shipPlacementPreProcess(PlaceShip placeShip) {
         if (placeShip.getPlayerBoardDomain().getPlayerBoardStatus() != PlayerBoardStatus.SHIP_PLACEMENT) {
-            throw new IllegalArgumentException();
+            throw new InvalidGameAction("Ship placement not allowed!");
         }
 
         if (SAME_SHIP_USAGE_ALLOWED || !verifyShipNotPlacedBefore(placeShip.getShipType(), placeShip.getPlayerBoardDomain())) {
-            throw new IllegalArgumentException("Cell positions are not valid!"); // TODO FIX
+            throw new InvalidGameAction(String.format("Given ship is already placed [%s]", placeShip.getShipType().name()));
         }
 
         if (!verifyCellPositionsAreValid(placeShip)) {
-            throw new IllegalArgumentException("Cell positions are not valid!"); // TODO FIX
+            throw new InvalidGameAction("Given ship position is already booked");
         }
     }
 

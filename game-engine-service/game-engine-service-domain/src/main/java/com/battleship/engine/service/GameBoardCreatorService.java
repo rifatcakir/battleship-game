@@ -1,5 +1,6 @@
 package com.battleship.engine.service;
 
+import com.battleship.engine.exception.GameInitiateException;
 import com.battleship.engine.messaging.GameBoardCreator;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.BoardCell;
@@ -30,9 +31,9 @@ public class GameBoardCreatorService implements GameBoardCreator {
     private Integer gameColumnSize;
 
     @Override
-    public void createGameBoard(GameCreateRequest message) { // Todo renam gameboard creater service
+    public void createGameBoard(GameCreateRequest message) {
         if (gameBoardRepository.isGameBoardExists(message.getGameLobbyId())) {
-            throw new IllegalArgumentException(String.format("Game lobby already created for id: [ %s ]", message.getGameLobbyId()));
+            throw new GameInitiateException(String.format("Game lobby already created for id: [ %s ]", message.getGameLobbyId()));
         }
 
         BattleshipGameBoard gameLobby = gameBoardRepository.save(gameCreateRequestToGameBoardModel(message));

@@ -8,7 +8,6 @@ import com.battleship.engine.model.ActionStatus;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.enums.ActionResult;
-import com.battleship.engine.model.enums.PlayerBoardStatus;
 import com.battleship.engine.model.request.ShipActionResponse;
 import com.battleship.engine.model.request.ShipPlacementRequest;
 import com.battleship.engine.repository.GameBoardRepository;
@@ -29,9 +28,6 @@ public class ShipPlacementServiceImpl implements ShipPlacementService {
         BattleshipGameBoard battleshipGameBoard = gameBoardRepository.findById(shipPlacementRequest.getGameLobbyId());
         PlayerBoardDomain currentPlayerBoard = battleshipGameBoard.getPlayerBoardByPlayerName(playerName);
 
-        if (currentPlayerBoard.getPlayerBoardStatus() != PlayerBoardStatus.SHIP_PLACEMENT) {
-            throw new IllegalArgumentException(); //TODO FIX
-        }
 
         ruleService.applyRule(
                 createShipPlacementParam(

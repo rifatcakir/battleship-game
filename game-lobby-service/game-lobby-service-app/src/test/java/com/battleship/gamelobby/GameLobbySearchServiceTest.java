@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GameLobbySearchServiceTest {
 
-    private final String baseUrl = "/game-lobby";
+    private final String baseUrl = "/game-lobby/v0";
     @Autowired
     private MockMvc mockMvc;
     @Autowired

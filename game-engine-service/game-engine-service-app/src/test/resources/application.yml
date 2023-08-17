@@ -1,0 +1,43 @@
+server:
+  port: 7779
+
+spring:
+  application:
+    name: GAME-ENGINE-SERVICE
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  data:
+    mongodb:
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      database: gameengine
+      username: root
+      password: hello
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          max-attempts: 3
+          max-interval: 5s
+          multiplier: 2
+
+
+eureka:
+  client:
+    enabled: false
+
+battleship:
+  jwt:
+    secret: mySecretKey
+  rabbitmq:
+    queue: lobby.message.queue
+  game:
+    rowSize: 10
+    columnSize: 10

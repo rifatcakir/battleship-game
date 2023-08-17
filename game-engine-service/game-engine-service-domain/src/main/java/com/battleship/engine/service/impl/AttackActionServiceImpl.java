@@ -27,8 +27,8 @@ public class AttackActionServiceImpl implements AttackActionService {
     @Override
     public ShipActionResponse executeAction(String playerName, ShipActionRequest shipAttackDomainModel) {
         BattleshipGameBoard battleshipGameBoard = gameBoardRepository.findById(shipAttackDomainModel.getGameLobbyId());
-        PlayerBoardDomain playerBoard = battleshipGameBoard.getPlayerBoardByPlayerName(playerName).orElseThrow(IllegalAccessError::new);
-        PlayerBoardDomain enemyPlayerBoard = battleshipGameBoard.getEnemyPlayerBoardByPlayerName(playerName).orElseThrow(IllegalAccessError::new);
+        PlayerBoardDomain playerBoard = battleshipGameBoard.getPlayerBoardByPlayerName(playerName);
+        PlayerBoardDomain enemyPlayerBoard = battleshipGameBoard.getEnemyPlayerBoardByPlayerName(playerName);
 
         ruleService.applyRule(
                 new AttackCell(

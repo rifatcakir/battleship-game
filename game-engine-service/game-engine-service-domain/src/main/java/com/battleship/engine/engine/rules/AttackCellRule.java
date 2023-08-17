@@ -2,6 +2,7 @@ package com.battleship.engine.engine.rules;
 
 import com.battleship.engine.engine.parameters.AttackCell;
 import com.battleship.engine.engine.parameters.Parameter;
+import com.battleship.engine.exception.InvalidGameAction;
 import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.ShipInfo;
@@ -96,7 +97,7 @@ public class AttackCellRule implements Rule {
 
     private void cellAttackPreProcess(GameStatusDomain gameStatus, CurrentPlayerDomain playerHasRightToPlay, CurrentPlayerDomain currentPlayer) {
         if (!gameStatus.equals(GameStatusDomain.ONGOING) || !playerHasRightToPlay.equals(currentPlayer)) {
-            throw new IllegalArgumentException(); // todo fix game not going on
+            throw new InvalidGameAction("You are not allowed to attack!");
         }
     }
 }

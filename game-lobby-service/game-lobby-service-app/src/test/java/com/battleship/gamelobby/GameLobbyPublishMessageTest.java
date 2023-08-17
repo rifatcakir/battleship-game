@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class GameLobbyPublishMessageTest {
-    private final String baseUrl = "/game-lobby";
+    private final String baseUrl = "/game-lobby/v0";
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired

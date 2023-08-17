@@ -25,8 +25,8 @@ spring:
           uri: lb://GAME-ENGINE-SERVICE
           predicates:
             - Path=/game-engine/**
-        - id: GAME-ENGINE-SERVICE
-          uri: lb://GAME-ENGINE-SERVICE
+        - id: GAME-LOBBY-SERVICE
+          uri: lb://GAME-LOBBY-SERVICE
           predicates:
             - Path=/game-lobby/**
         - id: AUTH-SERVICE

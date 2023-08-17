@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Game Lobby", description = "Game lobby actions")
-@RequestMapping(value = "/game-lobby")
+@RequestMapping(value = "/game-lobby/v0")
 public interface GameLobbyController {
 
     @Operation(summary = "Create new game lobby", description = "Game lobby registration endpoint", tags = "GameLobby")
