@@ -1,6 +1,6 @@
-package com.battleship.lobby.rest;
+package com.battleship.lobby.rest.impl;
 
-import com.battleship.lobby.model.GameLobbyModel;
+import com.battleship.lobby.rest.model.GameLobbyAPIModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +21,16 @@ public interface GameLobbyController {
     @Operation(summary = "Create new game lobby", description = "Game lobby registration endpoint", tags = "GameLobby")
     @PreAuthorize("hasAuthority('ROLE_PLAYER')")
     @PostMapping("/create")
-    ResponseEntity<GameLobbyModel> createGameLobby(HttpServletRequest request);
+    ResponseEntity<GameLobbyAPIModel> createGameLobby(HttpServletRequest request);
 
     @Operation(summary = "Find available game lobby", description = "Find available Game lobby endpoint", tags = "GameLobby")
     @PreAuthorize("hasAuthority('ROLE_PLAYER')")
     @GetMapping("/find/available")
-    ResponseEntity<List<GameLobbyModel>> findAvailableGameLobby();
+    ResponseEntity<List<GameLobbyAPIModel>> findAvailableGameLobby();
 
 
     @Operation(summary = "Join available game lobby", description = "Join available Game lobby endpoint", tags = "GameLobby")
     @PreAuthorize("hasAuthority('ROLE_PLAYER')")
     @PostMapping("/join/{id}")
-    ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, @PathVariable(value = "id") UUID gameLobbyId);
+    ResponseEntity<GameLobbyAPIModel> joinAvailableGameLobby(HttpServletRequest request, @PathVariable(value = "id") UUID gameLobbyId);
 }

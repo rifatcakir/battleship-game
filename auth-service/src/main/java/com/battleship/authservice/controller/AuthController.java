@@ -13,17 +13,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Authentication API spec for Swagger doc
  */
-@Tag(name = "Authorization", description = "Login endpoint")
+@Tag(name = "Authorization", description = "Login and SignUp endpoints")
 @RestController
 @RequestMapping(value = "/authenticate")
 @RequiredArgsConstructor
@@ -46,11 +49,10 @@ public class AuthController {
             )
     )
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(@RequestBody SignUpRequest signUpRequest,
-                                                        UriComponentsBuilder uriComponentsBuilder) {
-        var location = uriComponentsBuilder.path("/login")
-                .buildAndExpand().toUri();
-        return ResponseEntity.created(location).body(registerService.registerUser(signUpRequest.getUsername(), signUpRequest.getPassword()));
+    public ResponseEntity<MessageResponse> registerUser(@RequestBody SignUpRequest signUpRequest) {
+        MessageResponse messageResponse = registerService.registerUser(signUpRequest.getUsername(), signUpRequest.getPassword());
+        messageResponse.add(linkTo(methodOn(AuthController.class).authenticateUser(null)).withRel("Authenticate"));
+        return new ResponseEntity<>(messageResponse, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Login", description = "Generating JWT tokens", tags = {"Authorization"})

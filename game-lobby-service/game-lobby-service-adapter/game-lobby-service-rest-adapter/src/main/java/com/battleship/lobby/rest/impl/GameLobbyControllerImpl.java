@@ -1,7 +1,7 @@
 package com.battleship.lobby.rest.impl;
 
 import com.battleship.lobby.model.GameLobbyModel;
-import com.battleship.lobby.rest.GameLobbyController;
+import com.battleship.lobby.rest.model.GameLobbyAPIModel;
 import com.battleship.lobby.service.GameLobbyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,17 +19,21 @@ public class GameLobbyControllerImpl implements GameLobbyController {
     private final GameLobbyService gameLobbyService;
 
     @Override
-    public ResponseEntity<GameLobbyModel> createGameLobby(HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameLobbyService.createGameLobby(request.getUserPrincipal().getName()));
+    public ResponseEntity<GameLobbyAPIModel> createGameLobby(HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDomain(gameLobbyService.createGameLobby(request.getUserPrincipal().getName())));
     }
 
     @Override
-    public ResponseEntity<List<GameLobbyModel>> findAvailableGameLobby() {
-        return ResponseEntity.ok(gameLobbyService.findAvailableGameLobby());
+    public ResponseEntity<List<GameLobbyAPIModel>> findAvailableGameLobby() {
+        return ResponseEntity.ok(gameLobbyService.findAvailableGameLobby().stream().map(this::toDomain).toList());
     }
 
     @Override
-    public ResponseEntity<GameLobbyModel> joinAvailableGameLobby(HttpServletRequest request, UUID gameLobbyJoin) {
-        return ResponseEntity.ok(gameLobbyService.joinGameLobby(gameLobbyJoin, request.getUserPrincipal().getName()));
+    public ResponseEntity<GameLobbyAPIModel> joinAvailableGameLobby(HttpServletRequest request, UUID gameLobbyJoin) {
+        return ResponseEntity.ok(toDomain(gameLobbyService.joinGameLobby(gameLobbyJoin, request.getUserPrincipal().getName())));
+    }
+
+    private GameLobbyAPIModel toDomain(GameLobbyModel gameLobbyModel) {
+        return new GameLobbyAPIModel(gameLobbyModel.getGameLobbyId(), gameLobbyModel.getPlayer1Name(), gameLobbyModel.getPlayer2Name());
     }
 }

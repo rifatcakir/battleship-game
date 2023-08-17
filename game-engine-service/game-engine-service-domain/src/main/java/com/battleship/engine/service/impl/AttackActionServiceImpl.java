@@ -11,7 +11,7 @@ import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.enums.ActionResult;
 import com.battleship.engine.model.request.ShipActionRequest;
-import com.battleship.engine.model.request.ShipActionResponse;
+import com.battleship.engine.model.response.ShipActionResponse;
 import com.battleship.engine.repository.GameBoardRepository;
 import com.battleship.engine.service.AttackActionService;
 import lombok.RequiredArgsConstructor;
