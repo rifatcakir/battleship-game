@@ -33,6 +33,11 @@ public class GameEngineControllerImpl implements GameEngineController {
     private final GameStatusService gameStatusService;
 
     @Override
+    public String getTest() {
+        return "HELLO";
+    }
+
+    @Override
     public ResponseEntity<ShipActionAPIResponse> shipPlacement(HttpServletRequest request, ShipPlacementRequestApi shipPlacementRequestApi) {
         return ResponseEntity.ok(toAPIModel(shipPlacementService.placeShip(request.getUserPrincipal().getName(), toShipPlacementDomainModel(shipPlacementRequestApi))));
     }

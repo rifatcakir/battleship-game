@@ -28,7 +28,6 @@ spring:
           max-interval: 5s
           multiplier: 2
 
-
 eureka:
   client:
     enabled: false
