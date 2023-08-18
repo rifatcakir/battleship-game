@@ -10,8 +10,8 @@ import java.util.Date;
 
 @ControllerAdvice
 public class GameLobbyExceptionController {
-    @ExceptionHandler(GameLobbyNotAvailable.class)
-    public ResponseEntity<ErrorMessage> gameLobbyNotAvailable(GameLobbyNotAvailable ex, WebRequest request) {
+    @ExceptionHandler(GameLobbyActionFailed.class)
+    public ResponseEntity<ErrorMessage> gameLobbyNotAvailable(GameLobbyActionFailed ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),

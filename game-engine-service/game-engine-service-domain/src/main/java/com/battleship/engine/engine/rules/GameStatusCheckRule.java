@@ -25,13 +25,11 @@ public class GameStatusCheckRule implements Rule {
         var checkParameter = (GameStatusCheck) param;
 
         BattleshipGameBoard battleshipGameBoard = checkParameter.getBattleshipGameBoard();
-        var playerBoards = battleshipGameBoard.getPlayerBoards();
-
         if (isShipPlacementCompleted(battleshipGameBoard.getPlayerBoards())) {
             battleshipGameBoard.setStatus(GameStatusDomain.ONGOING);
         }
 
-        boolean gameIsOver = checkGameOver(playerBoards.stream().filter(it -> it.getCurrentPlayerDomain() != battleshipGameBoard.getCurrentPlayer()).findFirst().get());
+        boolean gameIsOver = checkGameOver(battleshipGameBoard.getEnemyBoardByPlayerCurrent(battleshipGameBoard.getCurrentPlayer()));
 
         if (gameIsOver) {
             battleshipGameBoard.setStatus(GameStatusDomain.byPlayerType(battleshipGameBoard.getCurrentPlayer()));
@@ -40,7 +38,7 @@ public class GameStatusCheckRule implements Rule {
     }
 
     private boolean isShipPlacementCompleted(List<PlayerBoardDomain> playerBoards) {
-        return playerBoards.stream().map(it -> it.getPlayerBoardStatus()).allMatch(it -> it == ONGOING);
+        return playerBoards.stream().map(PlayerBoardDomain::getPlayerBoardStatus).allMatch(it -> it == ONGOING);
     }
 
     private boolean checkGameOver(PlayerBoardDomain enemyPlayerBoard) {

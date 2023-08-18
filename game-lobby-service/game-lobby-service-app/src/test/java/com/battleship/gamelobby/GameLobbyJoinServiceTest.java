@@ -2,7 +2,7 @@ package com.battleship.gamelobby;
 
 
 import com.battleship.lobby.entity.GameLobby;
-import com.battleship.lobby.exception.GameLobbyNotAvailable;
+import com.battleship.lobby.exception.GameLobbyActionFailed;
 import com.battleship.lobby.exception.GameLobbyNotFoundException;
 import com.battleship.lobby.model.GameLobbyModel;
 import com.battleship.lobby.repository.GameLobbyMysqlRepository;
@@ -77,7 +77,7 @@ class GameLobbyJoinServiceTest {
 
         mockMvc.perform(post(baseUrl + "/join/" + createdMockGameLobby.getGameLobbyId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof GameLobbyNotAvailable));
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof GameLobbyActionFailed));
     }
 
     @Test
