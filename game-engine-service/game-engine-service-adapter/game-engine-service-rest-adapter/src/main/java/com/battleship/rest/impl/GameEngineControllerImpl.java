@@ -9,8 +9,9 @@ import com.battleship.engine.model.response.ShipActionResponse;
 import com.battleship.engine.service.AttackActionService;
 import com.battleship.engine.service.GameStatusService;
 import com.battleship.engine.service.ShipPlacementService;
+import com.battleship.rest.CellHumanLangConverterUtil;
 import com.battleship.rest.GameEngineController;
-import com.battleship.rest.model.CellPositionApi;
+import com.battleship.rest.model.CellPositionHumanLanguageApi;
 import com.battleship.rest.model.request.ShipAttackRequestApi;
 import com.battleship.rest.model.request.ShipPlacementRequestApi;
 import com.battleship.rest.model.response.GameStatusApiResponse;
@@ -31,11 +32,7 @@ public class GameEngineControllerImpl implements GameEngineController {
     private final ShipPlacementService shipPlacementService;
     private final AttackActionService attackActionService;
     private final GameStatusService gameStatusService;
-
-    @Override
-    public String getTest() {
-        return "HELLO";
-    }
+    private final CellHumanLangConverterUtil cellHumanLangConverterUtil;
 
     @Override
     public ResponseEntity<ShipActionAPIResponse> shipPlacement(HttpServletRequest request, ShipPlacementRequestApi shipPlacementRequestApi) {
@@ -72,7 +69,8 @@ public class GameEngineControllerImpl implements GameEngineController {
         );
     }
 
-    private List<CellPosition> toCellPositionDomain(List<CellPositionApi> cellPositions) {
-        return cellPositions.stream().map(it -> new CellPosition(it.getX(), it.getY())).collect(Collectors.toList());
+    private List<CellPosition> toCellPositionDomain(List<CellPositionHumanLanguageApi> cellPositions) {
+        return cellPositions.stream().map(input -> cellHumanLangConverterUtil.convert(input.getPosition())).collect(Collectors.toList());
     }
+
 }

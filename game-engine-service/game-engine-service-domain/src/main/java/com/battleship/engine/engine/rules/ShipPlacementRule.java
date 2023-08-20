@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Component
 public class ShipPlacementRule implements Rule {
 
-    private final Integer MAX_SHIP_PLACE_LIMIT = 1;
+    private final Integer MAX_SHIP_PLACE_LIMIT = 5;
     private final boolean SAME_SHIP_USAGE_ALLOWED = false;
 
     @Override
@@ -56,7 +56,7 @@ public class ShipPlacementRule implements Rule {
         }
 
         if (!verifyCellPositionsAreValid(placeShip)) {
-            throw new InvalidGameAction("Given ship position is already booked");
+            throw new InvalidGameAction("Given ship position is not valid");
         }
     }
 

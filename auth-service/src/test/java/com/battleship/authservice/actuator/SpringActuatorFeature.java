@@ -1,19 +1,17 @@
-package karate;
+package com.battleship.authservice.actuator;
 
-import com.battleship.gameengine.GameEngineApplication;
+import com.battleship.authservice.AuthServiceApplication;
 import com.intuit.karate.junit5.Karate;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(
-        classes = {GameEngineApplication.class},
+        classes = {AuthServiceApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 public class SpringActuatorFeature {
 
   @LocalServerPort
@@ -25,21 +23,16 @@ public class SpringActuatorFeature {
 
   @Karate.Test
   public Karate actuatorResourceIsAvailable() {
-    return karateSzenario("actuator resource is available");
+    return karateScenario("actuator resource is available");
   }
 
   @Karate.Test
   public Karate healthResourceStatusIsUp() {
-    return karateSzenario("health resource status is \"up\"");
+    return karateScenario("health resource status is \"up\"");
   }
 
-  @Karate.Test
-  public Karate asdasd() {
-    return karateSzenario("h resource status");
-  }
-
-  private Karate karateSzenario(String s) {
-    return Karate.run()
+  private Karate karateScenario(String s) {
+    return Karate.run("classpath:/features")
             .scenarioName(s)
             .relativeTo(getClass())
             .systemProperty("karate.port", localServerPort)

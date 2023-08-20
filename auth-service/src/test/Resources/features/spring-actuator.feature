@@ -10,8 +10,3 @@ Feature: Actuator api
     When method get
     Then status 200
     And match response == {'status':'UP'}
-
-  Scenario: h resource status
-    Given url  baseUrl + '/game-engine/v0/actions/test'
-    When method get
-    Then status 200

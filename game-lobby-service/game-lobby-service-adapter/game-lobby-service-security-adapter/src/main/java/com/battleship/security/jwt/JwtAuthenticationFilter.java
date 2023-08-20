@@ -54,6 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(req, res);
+        SecurityContextHolder.clearContext();
     }
 
     private String parseJwt(HttpServletRequest request) {

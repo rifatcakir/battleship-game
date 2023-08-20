@@ -22,10 +22,6 @@ import java.util.UUID;
 @RequestMapping(value = "/game-engine/v0/actions")
 public interface GameEngineController {
 
-
-    @GetMapping("/test")
-    public String getTest();
-
     @Operation(summary = "Place Ship", description = "Ship placement endpoint", tags = "GameEngine")
     @ApiResponses({
             @ApiResponse(

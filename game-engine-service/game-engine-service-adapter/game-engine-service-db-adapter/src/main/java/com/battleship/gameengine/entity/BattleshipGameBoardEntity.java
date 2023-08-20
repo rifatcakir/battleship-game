@@ -2,6 +2,7 @@ package com.battleship.gameengine.entity;
 
 import com.battleship.gameengine.entity.enums.CurrentTurn;
 import com.battleship.gameengine.entity.enums.GameStatus;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BattleshipGameBoardEntity {
     @Id
     private UUID gameId;

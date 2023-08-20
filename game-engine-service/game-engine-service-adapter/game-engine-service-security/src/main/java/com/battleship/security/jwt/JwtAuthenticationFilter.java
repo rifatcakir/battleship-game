@@ -31,10 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         try {
-
             String jwt = parseJwt(req);
-            log.error("AuthTokenFilter | doFilterInternal | jwt: {}", jwt);
-
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
@@ -55,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(req, res);
+        SecurityContextHolder.clearContext();
     }
 
     private String parseJwt(HttpServletRequest request) {
