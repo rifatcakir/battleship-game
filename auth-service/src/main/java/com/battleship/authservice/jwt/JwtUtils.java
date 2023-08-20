@@ -29,9 +29,7 @@ public class JwtUtils {
     public String generateTokenFromUsername(String username) {
         CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
         StringBuilder roles = new StringBuilder();
-        userDetails.getAuthorities().forEach(role -> {
-            roles.append(role.getAuthority()).append(" ");
-        });
+        userDetails.getAuthorities().forEach(role -> roles.append(role.getAuthority()).append(" "));
         return Jwts.builder()
                 .setSubject(username)
                 .claim("userId", userDetails.getId().toString())

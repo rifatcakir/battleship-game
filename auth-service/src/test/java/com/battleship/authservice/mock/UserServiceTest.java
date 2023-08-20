@@ -16,7 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -25,7 +25,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void shouldCallExistsByName() {
+    void shouldCallExistsByName() {
 
         String username = "John";
 
@@ -39,7 +39,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldFindByName() {
+    void shouldFindByName() {
         User mockUser = MockObject.user();
 
         // when
@@ -50,7 +50,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldSaveUser() {
+    void shouldSaveUser() {
         User mockUser = MockObject.user();
 
         given(userRepository.save(mockUser)).willReturn(mockUser);

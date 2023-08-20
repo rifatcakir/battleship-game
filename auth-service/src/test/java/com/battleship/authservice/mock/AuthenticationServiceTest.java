@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthenticationServiceTest {
+class AuthenticationServiceTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -42,7 +42,7 @@ public class AuthenticationServiceTest {
     private AuthenticateService authenticateService;
 
     @Test
-    public void shouldRegisterUser() {
+    void shouldRegisterUser() {
 
         given(securityContext.getAuthentication()).willReturn(authentication);
         given(authentication.getPrincipal()).willReturn(customUserDetails);

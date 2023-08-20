@@ -44,7 +44,7 @@ public class MQConfig {
     }
 
     @Bean
-    Binding DLQbinding() {
+    Binding deadLetterQueuebinding() {
         return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with(deadLetterRoutingKey);
     }
 

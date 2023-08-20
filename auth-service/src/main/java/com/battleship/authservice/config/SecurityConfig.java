@@ -47,9 +47,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable().and()
                 .csrf().disable()
                 .cors().and()
-                .authorizeRequests(auth -> {
-                    auth.anyRequest().permitAll();
-                })
+                .authorizeRequests(auth -> auth.anyRequest().permitAll())
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)

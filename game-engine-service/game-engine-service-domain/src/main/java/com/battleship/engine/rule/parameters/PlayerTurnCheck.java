@@ -7,6 +7,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PlayerTurnCheck extends Parameter {
+public class PlayerTurnCheck implements Parameter {
     private BattleshipGameBoard battleshipGameBoard;
 }

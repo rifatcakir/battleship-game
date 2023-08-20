@@ -22,7 +22,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class RegisterServiceTest {
+class RegisterServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -34,7 +34,7 @@ public class RegisterServiceTest {
     private RegisterService registerService;
 
     @Test
-    public void shouldRegisterUser() {
+    void shouldRegisterUser() {
         User mockUser = MockObject.user();
         given(userService.existsByUsername(mockUser.getUsername())).willReturn(false);
 
@@ -49,7 +49,7 @@ public class RegisterServiceTest {
     }
 
     @Test
-    public void whenUserAlreadyRegisteredReturnExistsMessage() {
+    void whenUserAlreadyRegisteredReturnExistsMessage() {
         User mockUser = MockObject.user();
         given(userService.existsByUsername(mockUser.getUsername())).willReturn(true);
 
