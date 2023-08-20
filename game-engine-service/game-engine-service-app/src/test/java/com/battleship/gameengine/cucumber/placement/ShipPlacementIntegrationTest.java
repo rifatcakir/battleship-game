@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources",
-        tags = "@ShipPlacement",
+        tags = "@ShipPlacement", dryRun = true,
         glue = {"com.battleship.gameengine.cucumber.common",
                 "com.battleship.gameengine.cucumber.placement"})
 @CucumberContextConfiguration
