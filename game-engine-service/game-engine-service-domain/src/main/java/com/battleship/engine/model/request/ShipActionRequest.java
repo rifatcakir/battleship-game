@@ -1,6 +1,6 @@
 package com.battleship.engine.model.request;
 
-import com.battleship.engine.engine.model.CellPosition;
+import com.battleship.engine.rule.model.CellPosition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

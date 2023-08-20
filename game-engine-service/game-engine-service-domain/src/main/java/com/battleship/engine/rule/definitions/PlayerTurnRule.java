@@ -1,8 +1,8 @@
-package com.battleship.engine.engine.rules;
+package com.battleship.engine.rule.definitions;
 
-import com.battleship.engine.engine.parameters.Parameter;
-import com.battleship.engine.engine.parameters.PlayerTurnCheck;
 import com.battleship.engine.model.enums.GameStatusDomain;
+import com.battleship.engine.rule.parameters.Parameter;
+import com.battleship.engine.rule.parameters.PlayerTurnCheck;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

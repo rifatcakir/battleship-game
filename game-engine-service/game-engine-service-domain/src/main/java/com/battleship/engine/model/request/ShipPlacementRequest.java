@@ -1,7 +1,7 @@
 package com.battleship.engine.model.request;
 
-import com.battleship.engine.engine.model.CellPosition;
 import com.battleship.engine.model.ShipType;
+import com.battleship.engine.rule.model.CellPosition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

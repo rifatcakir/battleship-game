@@ -1,8 +1,8 @@
-package com.battleship.engine.engine.parameters;
+package com.battleship.engine.rule.parameters;
 
-import com.battleship.engine.engine.model.CellPosition;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.ShipType;
+import com.battleship.engine.rule.model.CellPosition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

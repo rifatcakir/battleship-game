@@ -1,10 +1,5 @@
 package com.battleship.engine.service.impl;
 
-import com.battleship.engine.engine.model.CellPosition;
-import com.battleship.engine.engine.parameters.AttackCell;
-import com.battleship.engine.engine.parameters.GameStatusCheck;
-import com.battleship.engine.engine.parameters.PlayerTurnCheck;
-import com.battleship.engine.engine.rules.RuleService;
 import com.battleship.engine.model.ActionStatus;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.BoardCell;
@@ -13,6 +8,11 @@ import com.battleship.engine.model.enums.ActionResult;
 import com.battleship.engine.model.request.ShipActionRequest;
 import com.battleship.engine.model.response.ShipActionResponse;
 import com.battleship.engine.repository.GameBoardRepository;
+import com.battleship.engine.rule.definitions.RuleService;
+import com.battleship.engine.rule.model.CellPosition;
+import com.battleship.engine.rule.parameters.AttackCell;
+import com.battleship.engine.rule.parameters.GameStatusCheck;
+import com.battleship.engine.rule.parameters.PlayerTurnCheck;
 import com.battleship.engine.service.AttackActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

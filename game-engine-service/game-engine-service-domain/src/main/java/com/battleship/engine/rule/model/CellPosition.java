@@ -1,4 +1,4 @@
-package com.battleship.engine.engine.model;
+package com.battleship.engine.rule.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

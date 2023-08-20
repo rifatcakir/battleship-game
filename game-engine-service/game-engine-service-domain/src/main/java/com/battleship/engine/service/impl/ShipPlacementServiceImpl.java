@@ -1,9 +1,5 @@
 package com.battleship.engine.service.impl;
 
-import com.battleship.engine.engine.parameters.GameStatusCheck;
-import com.battleship.engine.engine.parameters.Parameter;
-import com.battleship.engine.engine.parameters.PlaceShip;
-import com.battleship.engine.engine.rules.RuleService;
 import com.battleship.engine.model.ActionStatus;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.PlayerBoardDomain;
@@ -11,6 +7,10 @@ import com.battleship.engine.model.enums.ActionResult;
 import com.battleship.engine.model.request.ShipPlacementRequest;
 import com.battleship.engine.model.response.ShipActionResponse;
 import com.battleship.engine.repository.GameBoardRepository;
+import com.battleship.engine.rule.definitions.RuleService;
+import com.battleship.engine.rule.parameters.GameStatusCheck;
+import com.battleship.engine.rule.parameters.Parameter;
+import com.battleship.engine.rule.parameters.PlaceShip;
 import com.battleship.engine.service.ShipPlacementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

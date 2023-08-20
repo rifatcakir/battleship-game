@@ -1,11 +1,11 @@
 package com.battleship.rest.impl;
 
-import com.battleship.engine.engine.model.CellPosition;
 import com.battleship.engine.model.ShipType;
 import com.battleship.engine.model.request.ShipActionRequest;
 import com.battleship.engine.model.request.ShipPlacementRequest;
 import com.battleship.engine.model.response.GameStatusResponse;
 import com.battleship.engine.model.response.ShipActionResponse;
+import com.battleship.engine.rule.model.CellPosition;
 import com.battleship.engine.service.AttackActionService;
 import com.battleship.engine.service.GameStatusService;
 import com.battleship.engine.service.ShipPlacementService;
@@ -54,11 +54,17 @@ public class GameEngineControllerImpl implements GameEngineController {
     }
 
     private ShipActionAPIResponse toAPIModel(ShipActionResponse response) {
-        return new ShipActionAPIResponse(response.getGameId(), response.getPlayerBoard(), response.getCurrentPlayer(), response.getStatus(), response.getActionStatus());
+        return new ShipActionAPIResponse(
+                response.getGameId(),
+                response.getPlayerBoard(),
+                response.getCurrentPlayer(),
+                response.getStatus(),
+                response.getActionStatus()
+        );
     }
 
     private ShipActionRequest toShipAttackDomainModel(ShipAttackRequestApi req) {
-        return new ShipActionRequest(req.getGameLobbyId(), new CellPosition(req.getCellPosition().getX(), req.getCellPosition().getY()));
+        return new ShipActionRequest(req.getGameLobbyId(), toCellPositionDomain(req.getCellPosition()));
     }
 
     private ShipPlacementRequest toShipPlacementDomainModel(ShipPlacementRequestApi request) {
@@ -69,6 +75,9 @@ public class GameEngineControllerImpl implements GameEngineController {
         );
     }
 
+    private CellPosition toCellPositionDomain(CellPositionHumanLanguageApi cellPosition) {
+        return cellHumanLangConverterUtil.convert(cellPosition.getPosition());
+    }
     private List<CellPosition> toCellPositionDomain(List<CellPositionHumanLanguageApi> cellPositions) {
         return cellPositions.stream().map(input -> cellHumanLangConverterUtil.convert(input.getPosition())).collect(Collectors.toList());
     }

@@ -1,8 +1,5 @@
-package com.battleship.engine.engine.rules;
+package com.battleship.engine.rule.definitions;
 
-import com.battleship.engine.engine.model.CellPosition;
-import com.battleship.engine.engine.parameters.Parameter;
-import com.battleship.engine.engine.parameters.PlaceShip;
 import com.battleship.engine.exception.InvalidGameAction;
 import com.battleship.engine.model.BoardCell;
 import com.battleship.engine.model.PlayerBoardDomain;
@@ -10,6 +7,9 @@ import com.battleship.engine.model.ShipInfo;
 import com.battleship.engine.model.ShipType;
 import com.battleship.engine.model.enums.CellStateDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
+import com.battleship.engine.rule.model.CellPosition;
+import com.battleship.engine.rule.parameters.Parameter;
+import com.battleship.engine.rule.parameters.PlaceShip;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

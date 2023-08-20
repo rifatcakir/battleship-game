@@ -1,6 +1,6 @@
 package com.battleship.rest;
 
-import com.battleship.engine.engine.model.CellPosition;
+import com.battleship.engine.rule.model.CellPosition;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,5 +16,14 @@ public class CellHumanLangConverterUtil {
         int column = Integer.parseInt(input.substring(1));
         int row = letter - 'A';
         return new CellPosition(row, column);
+    }
+
+    public String convert(int row, int column) {
+        if (row < 0 || column < 0) {
+            throw new IllegalArgumentException("Invalid coordinates");
+        }
+        char letter = (char) ('A' + row);
+        int number = column + 1;
+        return letter + Integer.toString(number);
     }
 }

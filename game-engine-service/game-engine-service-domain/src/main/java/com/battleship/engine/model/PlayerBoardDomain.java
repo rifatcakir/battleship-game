@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class PlayerBoardDomain {
+public class PlayerBoardDomain implements Serializable {
     private CurrentPlayerDomain currentPlayerDomain;
     private String playerName;
     private BoardCell[][] boardCells;

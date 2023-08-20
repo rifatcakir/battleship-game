@@ -1,4 +1,4 @@
-package com.battleship.gameengine.ship.placement;
+package com.battleship.gameengine.cucumber;
 
 import com.battleship.engine.messaging.GameBoardCreator;
 import com.battleship.engine.model.BattleshipGameBoard;
@@ -7,37 +7,38 @@ import com.battleship.engine.model.ShipType;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
 import com.battleship.engine.repository.GameBoardRepository;
-import com.battleship.gameengine.GameEngineApplication;
+import com.battleship.gameengine.cucumber.utils.MockMvcResultUtil;
 import com.battleship.rest.CellHumanLangConverterUtil;
 import com.battleship.rest.model.CellPositionHumanLanguageApi;
 import com.battleship.rest.model.ShipTypeApi;
+import com.battleship.rest.model.request.ShipAttackRequestApi;
 import com.battleship.rest.model.request.ShipPlacementRequestApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-@CucumberContextConfiguration
-@AutoConfigureMockMvc
-@SpringBootTest(classes = GameEngineApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ShipPlacementIntegrationTest {
-    static MockHttpServletResponse latestResponse = null;
-    static UUID gameLobbyId;
-    private final String baseUrl = "/game-engine/v0/actions";
+public class TestDataContextHolder {
+
+    public static MockHttpServletResponse latestResponse = null;
+    public static MvcResult latestResult = null;
+    public static UUID gameLobbyId;
+    public static String playerName;
+    public static String baseUrl = "/game-engine/v0/actions";
+
     @Autowired
     protected MockMvc mockMvc;
     @Autowired
@@ -48,15 +49,17 @@ public class ShipPlacementIntegrationTest {
     protected GameBoardRepository gameBoardRepository;
     @Autowired
     protected CellHumanLangConverterUtil cellHumanLangConverterUtil;
-    private String playerName;
+
+    @Autowired
+    protected MockMvcResultUtil mockMvcResultUtil;
 
     public void createGameLobby(String player1Name, String player2Name) {
         gameLobbyId = UUID.randomUUID();
         gameBoardCreator.createGameBoard(new GameCreateRequest(gameLobbyId, player1Name, player2Name));
     }
 
-    public void setPlayerNameIntoContext(String playerName) {
-        this.playerName = playerName;
+    public void setPlayerNameIntoContext(String userName) {
+        playerName = userName;
     }
 
     public void givenPlayerHasGivenShipOnHisBoard(String playerName, ShipType shipType, List<CellPositionHumanLanguageApi> cellPositions) {
@@ -73,14 +76,16 @@ public class ShipPlacementIntegrationTest {
                 });
     }
 
-    public void placeShip(ShipTypeApi shipType, List<CellPositionHumanLanguageApi> cellPositions) throws Exception {
-        var object = mockMvc.perform(post(baseUrl + "/ship-place")
+    public void placeShip(ShipTypeApi shipType, String positions) throws Exception {
+        latestResponse = mockMvc.perform(post(baseUrl + "/ship-place")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .with(user(playerName).password("test").roles("USER").authorities(List.of(new SimpleGrantedAuthority("ROLE_PLAYER"), new SimpleGrantedAuthority("ROLE_USER"))))
-                        .content(objectMapper.writeValueAsString(new ShipPlacementRequestApi(gameLobbyId, shipType, cellPositions))))
-                .andReturn();
+                        .content(objectMapper.writeValueAsString(new ShipPlacementRequestApi(gameLobbyId, shipType, toCellAPI(positions)))))
+                .andReturn().getResponse();
+    }
 
-        latestResponse = object.getResponse();
+    public List<CellPositionHumanLanguageApi> toCellAPI(String positions) {
+        return Arrays.stream(positions.replaceAll(" ", "").split(",")).map(CellPositionHumanLanguageApi::new).collect(Collectors.toList());
     }
 
     public void playerReceivedError(String message, int status) throws UnsupportedEncodingException {
@@ -91,11 +96,11 @@ public class ShipPlacementIntegrationTest {
     }
 
     public void playerPlacedAllShips() throws Exception {
-        placeShip(ShipTypeApi.DESTROYER, List.of(cellPos("A1"), cellPos("A2")));
-        placeShip(ShipTypeApi.SUBMARINE, List.of(cellPos("B1"), cellPos("B2"), cellPos("B3")));
-        placeShip(ShipTypeApi.CRUISER, List.of(cellPos("C1"), cellPos("C2"), cellPos("C3")));
-        placeShip(ShipTypeApi.BATTLESHIP, List.of(cellPos("D1"), cellPos("D2"), cellPos("D3"), cellPos("D4")));
-        placeShip(ShipTypeApi.AIRCRAFT_CARRIER, List.of(cellPos("E1"), cellPos("E2"), cellPos("E3"), cellPos("E4"), cellPos("E5")));
+        placeShip(ShipTypeApi.DESTROYER, "A1, A2");
+        placeShip(ShipTypeApi.SUBMARINE, "B1, B2, B3");
+        placeShip(ShipTypeApi.CRUISER, "C1, C2, C3");
+        placeShip(ShipTypeApi.BATTLESHIP, "D1, D2, D3, D4");
+        placeShip(ShipTypeApi.AIRCRAFT_CARRIER, "E1, E2, E3, E4, E5");
     }
 
     public void verifyGameBoardStatusIs(GameStatusDomain gameStatusDomain) {
@@ -109,6 +114,14 @@ public class ShipPlacementIntegrationTest {
         assertThat(boardStatus).isEqualTo(playerBoardStatus);
     }
 
+    public void attackToAShip(UUID gameLobbyId, String cellPos) throws Exception {
+        latestResult = mockMvc.perform(post(baseUrl + "/attack")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .with(user(playerName).password("test").roles("USER").authorities(List.of(new SimpleGrantedAuthority("ROLE_PLAYER"), new SimpleGrantedAuthority("ROLE_USER"))))
+                        .content(objectMapper.writeValueAsString(new ShipAttackRequestApi(gameLobbyId, toCellAPI(cellPos).stream().findFirst().get()))))
+                .andReturn();
+        latestResponse = latestResult.getResponse();
+    }
     private CellPositionHumanLanguageApi cellPos(String pos) {
         return new CellPositionHumanLanguageApi(pos);
     }

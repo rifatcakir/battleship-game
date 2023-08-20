@@ -1,10 +1,11 @@
+@ShipPlacement
 Feature: Ship placement tests
   As a player in a naval battle game,
   I want to be able to place my ships on the game board,
   So that I can strategically position my fleet and prepare for battle.
 
   Background:
-    Given a valid game lobby for user John and Jane
+    Given A valid game lobby for user John and Jane
 
   Scenario: Placing a ship on an empty board
     Given User John login

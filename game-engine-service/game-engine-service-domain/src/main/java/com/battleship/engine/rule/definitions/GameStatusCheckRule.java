@@ -1,11 +1,11 @@
-package com.battleship.engine.engine.rules;
+package com.battleship.engine.rule.definitions;
 
-import com.battleship.engine.engine.parameters.GameStatusCheck;
-import com.battleship.engine.engine.parameters.Parameter;
 import com.battleship.engine.model.BattleshipGameBoard;
 import com.battleship.engine.model.PlayerBoardDomain;
 import com.battleship.engine.model.enums.CellStateDomain;
 import com.battleship.engine.model.enums.GameStatusDomain;
+import com.battleship.engine.rule.parameters.GameStatusCheck;
+import com.battleship.engine.rule.parameters.Parameter;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -25,7 +25,7 @@ public class GameStatusCheckRule implements Rule {
         var checkParameter = (GameStatusCheck) param;
 
         BattleshipGameBoard battleshipGameBoard = checkParameter.getBattleshipGameBoard();
-        if (isShipPlacementCompleted(battleshipGameBoard.getPlayerBoards())) {
+        if (isShipPlacementCompleted(battleshipGameBoard.getPlayerBoards()) && battleshipGameBoard.getEndDate() == null) {
             battleshipGameBoard.setStatus(GameStatusDomain.ONGOING);
         }
 
@@ -50,6 +50,7 @@ public class GameStatusCheckRule implements Rule {
         Set<Boolean> allShipsStatus = Arrays.stream(enemyPlayerBoard.getBoardCells())
                 .flatMap(Arrays::stream)
                 .filter(Objects::nonNull)
+                .filter(it -> it.getOwnerState() != null)
                 .map(it -> it.getOwnerState() == CellStateDomain.SUNK)
                 .collect(Collectors.toSet());
 

@@ -1,4 +1,4 @@
-package com.battleship.engine.engine.parameters;
+package com.battleship.engine.rule.parameters;
 
 import com.battleship.engine.model.BattleshipGameBoard;
 import lombok.AllArgsConstructor;
