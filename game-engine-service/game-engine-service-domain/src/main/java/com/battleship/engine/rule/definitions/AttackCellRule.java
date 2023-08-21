@@ -16,65 +16,44 @@ import java.util.Objects;
 
 @Component
 public class AttackCellRule implements Rule {
-    private static BoardCell getBoardCell(PlayerBoardDomain playerBoardDomain, int targetXCoordinate, int targetYCoordinate) {
-        BoardCell targetCell = playerBoardDomain.getBoardCell(targetXCoordinate, targetYCoordinate);
-        if (targetCell == null) {
-            playerBoardDomain.getBoardCells()[targetXCoordinate][targetYCoordinate] = new BoardCell(null, CellStateDomain.EMPTY, null);
-            targetCell = playerBoardDomain.getBoardCells()[targetXCoordinate][targetYCoordinate];
-        } else if (targetCell.getOwnerState() == null) {
-            playerBoardDomain.getBoardCells()[targetXCoordinate][targetYCoordinate] = new BoardCell(targetCell.getShipInfo(), CellStateDomain.EMPTY, targetCell.getEnemyState());
-            targetCell = playerBoardDomain.getBoardCells()[targetXCoordinate][targetYCoordinate];
-        }
-        return targetCell;
-    }
 
     @Override
     public void applyRule(Parameter param) {
         if (!(param instanceof AttackCell)) return;
-        var attackCellParameter = (AttackCell) param;
+        AttackCell attackCellParameter = (AttackCell) param;
         int targetXCoordinate = attackCellParameter.getPosition().getX();
         int targetYCoordinate = attackCellParameter.getPosition().getY();
 
+        validateAttack(attackCellParameter);
 
-        cellAttackPreProcess(attackCellParameter.getGameStatus(),
-                attackCellParameter.getCurrentPlayer(),
-                attackCellParameter.getPlayerBoardDomain().getCurrentPlayerDomain());
+        PlayerBoardDomain enemyBoardDomain = attackCellParameter.getEnemyBoardDomain();
 
-        cellAttackProcess(attackCellParameter.getEnemyBoardDomain(), targetXCoordinate, targetYCoordinate);
+        BoardCell targetCell = getOrCreateBoardCell(enemyBoardDomain, targetXCoordinate, targetYCoordinate);
+        updateTargetCellState(targetCell);
 
-        BoardCell targetCell = attackCellParameter.getEnemyBoardDomain().getBoardCell(targetXCoordinate, targetYCoordinate);
-        fillOwnerBoardWithResult(
-                attackCellParameter.getPlayerBoardDomain(),
-                targetCell.getOwnerState(),
-                targetXCoordinate, targetYCoordinate
-        );
-        verifyAnySunk(attackCellParameter.getEnemyBoardDomain(), targetCell.getShipInfo(), targetCell.getOwnerState());
+        updateAttackerBoard(attackCellParameter.getPlayerBoardDomain(), targetCell.getOwnerState(), targetXCoordinate, targetYCoordinate);
+
+        verifyAnySunk(enemyBoardDomain, targetCell.getShipInfo(), targetCell.getOwnerState());
     }
 
-    private void verifyAnySunk(PlayerBoardDomain enemyBoardDomain, ShipInfo shipInfo, CellStateDomain ownerState) {
-        if (ownerState != CellStateDomain.HIT) return;
+    private void validateAttack(AttackCell attackCellParameter) {
+        GameStatusDomain gameStatus = attackCellParameter.getGameStatus();
+        CurrentPlayerDomain playerHasRightToPlay = attackCellParameter.getCurrentPlayer();
+        CurrentPlayerDomain currentPlayer = attackCellParameter.getPlayerBoardDomain().getCurrentPlayerDomain();
 
-        if (shipInfo != null) {
-            BoardCell[][] boardCells = enemyBoardDomain.getBoardCells();
-            boolean allHit = Arrays.stream(boardCells).flatMap(Arrays::stream)
-                    .filter(Objects::nonNull)
-                    .filter(it -> it.getShipInfo() != null)
-                    .filter(it -> it.getShipInfo().getShipGroupId().equals(shipInfo.getShipGroupId()))
-                    .map(BoardCell::getOwnerState)
-                    .distinct().count() == 1;
-
-            if (allHit) {
-                Arrays.stream(boardCells)
-                        .flatMap(Arrays::stream)
-                        .filter(Objects::nonNull)
-                        .filter(it -> it.getShipInfo() != null)
-                        .filter(it -> it.getShipInfo().getShipGroupId().equals(shipInfo.getShipGroupId()))
-                        .forEach(it -> it.setOwnerState(CellStateDomain.SUNK));
-            }
+        if (!gameStatus.equals(GameStatusDomain.ONGOING) || !playerHasRightToPlay.equals(currentPlayer)) {
+            throw new InvalidGameAction("You are not allowed to attack!");
         }
     }
 
-    private void fillOwnerBoardWithResult(PlayerBoardDomain playerBoardDomain, CellStateDomain ownerState, int xCellPos, int yCellPos) {
+    private void updateTargetCellState(BoardCell targetCell) {
+        if (targetCell.getOwnerState() == CellStateDomain.SHIP)
+            targetCell.setOwnerState(CellStateDomain.HIT);
+        else if (targetCell.getOwnerState() == CellStateDomain.EMPTY)
+            targetCell.setOwnerState(CellStateDomain.MISS);
+    }
+
+    private void updateAttackerBoard(PlayerBoardDomain playerBoardDomain, CellStateDomain ownerState, int xCellPos, int yCellPos) {
         BoardCell attackersCell = playerBoardDomain.getBoardCells()[xCellPos][yCellPos];
         if (attackersCell == null)
             playerBoardDomain.getBoardCells()[xCellPos][yCellPos] = new BoardCell(null, null, ownerState);
@@ -84,20 +63,37 @@ public class AttackCellRule implements Rule {
             attackersCell.setEnemyState(ownerState);
     }
 
-    private void cellAttackProcess(PlayerBoardDomain playerBoardDomain, int targetXCoordinate, int targetYCoordinate) {
+    private void verifyAnySunk(PlayerBoardDomain enemyBoardDomain, ShipInfo shipInfo, CellStateDomain ownerState) {
+        if (ownerState == CellStateDomain.HIT && shipInfo != null) {
+            boolean allShipsHit = Arrays.stream(enemyBoardDomain.getBoardCells())
+                    .flatMap(Arrays::stream)
+                    .filter(Objects::nonNull)
+                    .filter(it -> it.getShipInfo() != null && it.getShipInfo().getShipGroupId().equals(shipInfo.getShipGroupId()))
+                    .allMatch(cell -> cell.getOwnerState() == CellStateDomain.HIT);
 
-        BoardCell targetCell = getBoardCell(playerBoardDomain, targetXCoordinate, targetYCoordinate);
-
-        if (targetCell.getOwnerState() == CellStateDomain.SHIP)
-            targetCell.setOwnerState(CellStateDomain.HIT);
-        else if (targetCell.getOwnerState() == CellStateDomain.EMPTY)
-            targetCell.setOwnerState(CellStateDomain.MISS);
-
+            if (allShipsHit) {
+                Arrays.stream(enemyBoardDomain.getBoardCells())
+                        .flatMap(Arrays::stream)
+                        .filter(Objects::nonNull)
+                        .filter(it -> it.getShipInfo() != null && it.getShipInfo().getShipGroupId().equals(shipInfo.getShipGroupId()))
+                        .forEach(cell -> cell.setOwnerState(CellStateDomain.SUNK));
+            }
+        }
     }
 
-    private void cellAttackPreProcess(GameStatusDomain gameStatus, CurrentPlayerDomain playerHasRightToPlay, CurrentPlayerDomain currentPlayer) {
-        if (!gameStatus.equals(GameStatusDomain.ONGOING) || !playerHasRightToPlay.equals(currentPlayer)) {
-            throw new InvalidGameAction("You are not allowed to attack!");
+    private BoardCell getOrCreateBoardCell(PlayerBoardDomain playerBoardDomain, int targetXCoordinate, int targetYCoordinate) {
+        BoardCell targetCell = playerBoardDomain.getBoardCell(targetXCoordinate, targetYCoordinate);
+
+        if (targetCell == null || targetCell.getOwnerState() == null) {
+            BoardCell newCell = new BoardCell(
+                    targetCell != null ? targetCell.getShipInfo() : null,
+                    CellStateDomain.EMPTY,
+                    targetCell != null ? targetCell.getEnemyState() : null
+            );
+            playerBoardDomain.getBoardCells()[targetXCoordinate][targetYCoordinate] = newCell;
+            return newCell;
         }
+
+        return targetCell;
     }
 }

@@ -28,6 +28,19 @@ spring:
           max-interval: 5s
           multiplier: 2
 
+management:
+  endpoint:
+    info:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - metrics
+          - prometheus
+          - loggers
+
 springdoc:
   packagesToScan: com.battleship.gameengine
 

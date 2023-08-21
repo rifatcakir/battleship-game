@@ -17,6 +17,8 @@ import com.battleship.engine.service.AttackActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AttackActionServiceImpl implements AttackActionService {
@@ -30,35 +32,33 @@ public class AttackActionServiceImpl implements AttackActionService {
         PlayerBoardDomain playerBoard = battleshipGameBoard.getPlayerBoardByPlayerName(playerName);
         PlayerBoardDomain enemyPlayerBoard = battleshipGameBoard.getEnemyPlayerBoardByPlayerName(playerName);
 
-        ruleService.applyRule(
-                new AttackCell(
-                        battleshipGameBoard.getCurrentPlayer(),
-                        battleshipGameBoard.getStatus(),
-                        playerBoard,
-                        enemyPlayerBoard,
-                        shipAttackDomainModel.getCellPosition()
-                )
-        );
-
-        ruleService.applyRule(new GameStatusCheck(battleshipGameBoard));
-        ruleService.applyRule(new PlayerTurnCheck(battleshipGameBoard));
+        applyAttackRules(battleshipGameBoard, playerBoard, enemyPlayerBoard, shipAttackDomainModel.getCellPosition());
+        applyGameStatusAndPlayerTurnRules(battleshipGameBoard);
 
         gameBoardRepository.save(battleshipGameBoard);
 
-        BoardCell actionResultCell = getActionResult(enemyPlayerBoard, shipAttackDomainModel.getCellPosition());
-        return new ShipActionResponse(battleshipGameBoard.getGameId(),
+        BoardCell actionResultCell = enemyPlayerBoard.getBoardCell(shipAttackDomainModel.getCellPosition().getX(), shipAttackDomainModel.getCellPosition().getY());
+        return new ShipActionResponse(
+                battleshipGameBoard.getGameId(),
                 playerBoard,
                 battleshipGameBoard.getCurrentPlayer(),
                 battleshipGameBoard.getStatus(),
-                new ActionStatus(getShipInfo(actionResultCell), ActionResult.valueOf(actionResultCell.getOwnerState().name())));
+                new ActionStatus(getShipInfo(actionResultCell), ActionResult.valueOf(actionResultCell.getOwnerState().name()))
+        );
+    }
+
+    private void applyAttackRules(BattleshipGameBoard gameBoard, PlayerBoardDomain playerBoard, PlayerBoardDomain enemyPlayerBoard, CellPosition cellPosition) {
+        ruleService.applyRule(new AttackCell(gameBoard.getCurrentPlayer(), gameBoard.getStatus(), playerBoard, enemyPlayerBoard, cellPosition));
+    }
+
+    private void applyGameStatusAndPlayerTurnRules(BattleshipGameBoard gameBoard) {
+        ruleService.applyRule(new GameStatusCheck(gameBoard));
+        ruleService.applyRule(new PlayerTurnCheck(gameBoard));
     }
 
     private String getShipInfo(BoardCell actionResultCell) {
-        var shipInfo = actionResultCell.getShipInfo();
-        return (shipInfo != null) ? shipInfo.getShipType().name() : null;
-    }
-
-    private BoardCell getActionResult(PlayerBoardDomain enemyPlayerBoard, CellPosition cellPosition) {
-        return enemyPlayerBoard.getBoardCell(cellPosition.getX(), cellPosition.getY());
+        return Optional.ofNullable(actionResultCell.getShipInfo())
+                .map(shipInfo -> shipInfo.getShipType().name())
+                .orElse(null);
     }
 }

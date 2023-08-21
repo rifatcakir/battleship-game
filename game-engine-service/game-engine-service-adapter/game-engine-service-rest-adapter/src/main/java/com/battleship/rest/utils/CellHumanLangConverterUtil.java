@@ -1,4 +1,4 @@
-package com.battleship.rest;
+package com.battleship.rest.utils;
 
 import com.battleship.engine.rule.model.CellPosition;
 import org.springframework.stereotype.Component;
