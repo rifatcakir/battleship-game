@@ -3,12 +3,15 @@ package com.battleship.gameengine.cucumber.common;
 import com.battleship.engine.model.enums.GameStatusDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
 import com.battleship.gameengine.cucumber.TestDataContextHolder;
+import com.battleship.rest.model.ShipTypeApi;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class CommonStepDefs extends TestDataContextHolder {
     @Given("A valid game lobby for user {word} and {word}")
@@ -44,5 +47,15 @@ public class CommonStepDefs extends TestDataContextHolder {
     @When("Player attack to {word}")
     public void playerAttack(String position) throws Exception {
         attackToAShip(gameLobbyId, position);
+    }
+
+    @And("given ships are placed")
+    public void givenShipsArePlacedForJohn(DataTable table) throws Exception {
+        List<List<String>> rows = table.asLists(String.class);
+        List<List<String>> rowsWithoutHeader = rows.subList(1, rows.size());
+
+        for (List<String> columns : rowsWithoutHeader) {
+            placeShip(ShipTypeApi.valueOf(columns.get(0)), columns.get(1));
+        }
     }
 }

@@ -7,33 +7,20 @@ import com.battleship.engine.model.enums.GameStatusDomain;
 import com.battleship.engine.model.enums.PlayerBoardStatus;
 import com.battleship.engine.rule.model.CellPosition;
 import com.battleship.gameengine.cucumber.TestDataContextHolder;
-import com.battleship.rest.model.ShipTypeApi;
 import com.battleship.rest.model.response.ShipActionAPIResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ShipAttackIntegrationTestStepDef extends TestDataContextHolder {
 
-
-    @And("given ships are placed")
-    public void givenShipsArePlacedForJohn(DataTable table) throws Exception {
-        List<List<String>> rows = table.asLists(String.class);
-        List<List<String>> rowsWithoutHeader = rows.subList(1, rows.size());
-
-        for (List<String> columns : rowsWithoutHeader) {
-            placeShip(ShipTypeApi.valueOf(columns.get(0)), columns.get(1));
-        }
-    }
 
 
     @Then("Player received a {word} {word}")
@@ -84,5 +71,6 @@ public class ShipAttackIntegrationTestStepDef extends TestDataContextHolder {
         assertThat(response).isNotNull();
         assertThat(response.getStatus().name()).contains(response.getCurrentPlayer().name());
         assertThat(gameBoardRepository.findById(gameLobbyId).getEndDate()).isNotNull();
+        assertThat(response.getPlayerBoard().getCurrentPlayerDomain().name()).isEqualTo(playerName);
     }
 }

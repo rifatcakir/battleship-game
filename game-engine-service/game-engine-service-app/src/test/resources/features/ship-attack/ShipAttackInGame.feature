@@ -1,4 +1,4 @@
-@ShipAttack2
+@ShipAttack
 Feature: Ship Attack in Game Tests
   As players in a naval battle game,
   we want to strategically attack our opponent's ships on the game board,

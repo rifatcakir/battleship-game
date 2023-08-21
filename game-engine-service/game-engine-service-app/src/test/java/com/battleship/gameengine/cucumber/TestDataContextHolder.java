@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class TestDataContextHolder {
@@ -84,6 +85,13 @@ public class TestDataContextHolder {
                 .andReturn().getResponse();
     }
 
+    public void listenGameLobby() throws Exception {
+        latestResult = mockMvc.perform(get(baseUrl + "/listen/" + gameLobbyId.toString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .with(user(playerName).password("test").roles("USER").authorities(List.of(new SimpleGrantedAuthority("ROLE_PLAYER"), new SimpleGrantedAuthority("ROLE_USER")))))
+                .andReturn();
+    }
+
     public List<CellPositionHumanLanguageApi> toCellAPI(String positions) {
         return Arrays.stream(positions.replaceAll(" ", "").split(",")).map(CellPositionHumanLanguageApi::new).collect(Collectors.toList());
     }
@@ -121,9 +129,6 @@ public class TestDataContextHolder {
                         .content(objectMapper.writeValueAsString(new ShipAttackRequestApi(gameLobbyId, toCellAPI(cellPos).stream().findFirst().get()))))
                 .andReturn();
         latestResponse = latestResult.getResponse();
-    }
-    private CellPositionHumanLanguageApi cellPos(String pos) {
-        return new CellPositionHumanLanguageApi(pos);
     }
 
 }

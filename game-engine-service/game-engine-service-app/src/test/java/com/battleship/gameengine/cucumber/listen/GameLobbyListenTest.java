@@ -1,4 +1,4 @@
-package com.battleship.gameengine.cucumber.attack;
+package com.battleship.gameengine.cucumber.listen;
 
 import com.battleship.gameengine.GameEngineApplication;
 import io.cucumber.junit.Cucumber;
@@ -10,13 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources",
-        tags = "@ShipAttack", dryRun = true,
+        tags = "@Listen", dryRun = true,
         glue = {"com.battleship.gameengine.cucumber.common",
-                "com.battleship.gameengine.cucumber.attack"})
+                "com.battleship.gameengine.cucumber.listen"})
 @CucumberContextConfiguration
 @AutoConfigureMockMvc
 @SpringBootTest(classes = GameEngineApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ShipAttackIntegrationTest {
-
-
+public class GameLobbyListenTest {
 }
