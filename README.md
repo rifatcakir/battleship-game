@@ -11,8 +11,8 @@ To get started with the Battleship Microservices Project, follow these steps to 
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/battleship-microservices.git
-cd battleship-microservices
+git clone https://github.com/rifatcakir/battleship-game.git
+cd battleship-game
 ```
 
 2. **Build Docker Images**: Navigate to each microservice directory and build the Docker image (replace `service-name`
