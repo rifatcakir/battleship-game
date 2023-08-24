@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>com.battleship</groupId>
-            <artifactId>game-engine-service-security</artifactId>
+            <artifactId>game-engine-service-security-adapter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

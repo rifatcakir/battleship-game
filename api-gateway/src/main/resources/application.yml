@@ -25,10 +25,28 @@ spring:
           uri: lb://GAME-ENGINE-SERVICE
           predicates:
             - Path=/game-engine/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
+                fallbackuri: forward:/gameEngineServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 100
         - id: GAME-LOBBY-SERVICE
           uri: lb://GAME-LOBBY-SERVICE
           predicates:
             - Path=/game-lobby/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
+                fallbackuri: forward:/gameLobbyServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 100
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
@@ -37,7 +55,7 @@ spring:
             - name: CircuitBreaker
               args:
                 name: AUTH-SERVICE
-                fallbackuri: forward:/productServiceFallBack
+                fallbackuri: forward:/authServiceFallBack
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 10

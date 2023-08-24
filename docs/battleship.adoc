@@ -1,0 +1,76 @@
+= Microservices Ecosystem Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+Welcome to the Microservices Ecosystem Documentation!
+This comprehensive document provides a holistic overview of various microservices that collaboratively shape a dynamic and efficient application ecosystem.
+These microservices work in concert to deliver seamless functionalities, underscored by modularity, scalability, and maintainability.
+
+== Game Engine Microservice
+
+link:game-engine-service.adoc[Game Engine Documentation]
+
+The Game Engine microservice stands as the pivotal component, orchestrating game rules, state management, and logical interactions.
+It embraces the hexagonal architecture, a hallmark of modularity and scalability.
+This microservice engages in harmonious dialogue with the Game Lobby microservice, facilitating seamless game creation and management.
+
+== Game Lobby Microservice
+
+link:game-lobby-service.adoc[Game Lobby Documentation]
+
+The Game Lobby microservice takes the helm in crafting an ecosystem where game lobby creation, accessibility, and joining are seamlessly orchestrated.
+Following the hexagonal architecture, it thrives on clarity and adaptability.
+A symbiotic relationship with the Game Engine microservice catalyzes instant game creation upon lobby events.
+
+== Auth Service
+
+link:auth-service.adoc[Auth Service Documentation]
+
+The Auth Service microservice boasts the pivotal role of curating user authentication and registration.
+Its endpoints empower the creation of new users and issuance of JWT tokens, fortified guardians of the ecosystem’s security.
+This service becomes the bedrock of secure access across the entirety of functionalities.
+
+== API Gateway
+
+link:api-gateway-service.adoc[API Gateway Documentation]
+
+The API Gateway emerges as the grand entrance to the microservices haven.
+With finesse, it unifies the interface for external clients, adroitly routing requests to the appropriate microservices.
+Security, load balancing, and refined communication become its forte, fostering a symbiotic relationship between clients and microservices.
+
+== Eureka Service
+
+link:service-registry.adoc.adoc[Service Registry Documentation]
+
+The Eureka Service earns its stripes as the beacon of service registry and discovery.
+It orchestrates microservices' seamless rendezvous, a dynamic mechanism propelling inter-microservice communication.
+This service's role is indispensable, nurturing harmonious interaction amidst the dynamic microservices constellation.
+
+== Config Server
+
+link:config-server.adoc.adoc[Config Server Documentation]
+
+The Config Server microservice rises as the maestro of configuration orchestration.
+By segregating configuration details from application code, it steers a course for effortless modification and maintenance.
+The ecosystem can evolve and adapt without necessitating the redeployment of microservices.
+
+== Microservices Interaction
+
+[.interaction]
+image::microservices_interaction.png[Microservices Interaction]
+
+The microservices orchestrate a ballet of interactions:
+
+* The API Gateway acts as the gateway, chaperoning requests to their intended microservices.
+* The Auth Service stands guard, marshaling user authentication and JWT token generation.
+* The Eureka Service orchestrates rendezvous, offering microservices a dynamic communication platform.
+* The Config Server centralizes the management of configurations, nurturing consistency.
+* The Game Lobby and Game Engine microservices dance in harmony, coordinating game creation, lobby availability, and player joining.
+
+== Conclusion
+
+The Microservices Ecosystem thrives on the harmonious union of its constituents, resulting in an architecture that exemplifies potency and flexibility.
+Through orchestrated collaborations, commitment to architectural principles, and seamlessly choreographed interactions, this ecosystem fosters resilience, scalability, and a sustainable solution.
+

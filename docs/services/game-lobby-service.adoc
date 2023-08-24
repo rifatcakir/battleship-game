@@ -1,0 +1,200 @@
+= Game Lobby Microservice Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+The Game Lobby Microservice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Game Lobby microservice employs the hexagonal architecture approach to maintain clear separation between its core domain logic and external dependencies.
+The service is designed with various modules, adapters, and interfaces to ensure flexibility, maintainability, and scalability.
+== Architecture Overview
+
+[.architecture]
+image::hexagonal_architecture.png[Hexagonal Architecture]
+
+The Game Lobby microservice is structured into different modules and adapters:
+
+* `game-lobby-app`: The main application module containing the runner class and application configuration.
+* `game-lobby-domain`: Contains domain entities, business logic, and interfaces for external communication.
+* `game-lobby-service-db-adapter`: Responsible for handling database interactions.
+* `game-lobby-service-message-queue`: Manages interactions with the message queue.
+* `game-lobby-service-rest-adapter`: Exposes REST endpoints for communication.
+* `game-lobby-service-security-adapter`: Manages the microservice's security.
+
+== Modules and Adapters
+
+=== Game Lobby App
+
+The `game-lobby-app` module holds the main runner class and application configuration.
+It acts as the entry point to the microservice.
+
+=== Game Lobby Domain
+
+The `game-lobby-domain` module focuses on the core domain logic.
+It defines domain entities and creates interfaces for other modules to consume.
+This module encapsulates the business rules and essential functionalities.
+
+=== Database Adapter
+
+The `game-lobby-service-db-adapter` interacts with the database.
+It handles processes such as persisting and retrieving game lobby information.
+
+=== Message Queue Adapter
+
+The `game-lobby-service-message-queue` module is responsible for communication with the message queue.
+It facilitates the publication and consumption of messages for game start events.
+
+=== REST Adapter
+
+The `game-lobby-service-rest-adapter` module exposes REST endpoints for external communication.
+It translates incoming HTTP requests into domain-specific actions.
+
+=== Security Adapter
+
+The `game-lobby-service-security-adapter` module manages the microservice's security.
+It handles authorization using the configured security mechanisms.
+
+== Interaction Flow
+
+The hexagonal architecture encourages clear interaction between the modules.
+For example, when a new game lobby is created through a REST endpoint, the flow might be:
+
+1. An HTTP request triggers the `game-lobby-service-rest-adapter`.
+2. The adapter invokes the appropriate method in the `game-lobby-domain`.
+3. The domain service might validate the request, create a game lobby entity, and interact with the `game-lobby-service-db-adapter` to persist the data.
+4. Upon successful persistence, a message might be published using the `game-lobby-service-message-queue` for the game engine to initiate game creation.
+
+== Create Game Lobby
+
+[.endpoint]
+=== Create New Game Lobby
+
+[.tag]
+Operation:: POST /create
+Summary:: Game lobby registration endpoint
+Tags:: GameLobby
+
+This endpoint allows players to create a new game lobby.
+
+Security::
+- Requires ROLE_PLAYER authority.
+
+Response::
+- **HTTP Status**: 200 OK
+- **Content-Type**: application/json
+
+Response Body:: Game Lobby API Model (JSON)
+
+[source,json]
+----
+{
+  "gameLobbyId": "uuid_here"
+  // Other properties
+}
+----
+
+== Find Available Game Lobbies
+
+[.endpoint]
+=== Find Available Game Lobbies
+
+[.tag]
+Operation:: GET /find/available
+Summary:: Find available Game lobby endpoint
+Tags:: GameLobby
+
+This endpoint allows players to find available game lobbies.
+
+Security::
+- Requires ROLE_PLAYER authority.
+
+Response::
+- **HTTP Status**: 200 OK
+- **Content-Type**: application/json
+
+Response Body:: List of Game Lobby API Models (JSON)
+
+[source,json]
+----
+[
+  {
+    "gameLobbyId": "uuid_here"
+    // Other properties
+  }
+  // More lobbies
+]
+----
+
+== Join Available Game Lobby
+
+[.endpoint]
+=== Join Available Game Lobby
+
+[.tag]
+Operation:: POST /join/{id}
+Summary:: Join available Game lobby endpoint
+Tags:: GameLobby
+
+This endpoint allows players to join an available game lobby.
+
+Security::
+- Requires ROLE_PLAYER authority.
+- Requires Bearer Authentication.
+
+Response::
+- **HTTP Status**: 200 OK
+- **Content-Type**: application/json
+
+Response Body:: Game Lobby API Model (JSON)
+
+[source,json]
+----
+{
+  "gameLobbyId": "uuid_here"
+  // Other properties
+}
+----
+
+== Game Start and RabbitMQ Integration
+
+When a game lobby is created and starts, the Game Lobby microservice publishes a message to RabbitMQ to initiate game creation in the Game Engine microservice.
+
+== MySQL Database
+
+The Game Lobby microservice utilizes MySQL to store game lobby information.
+
+== Error Responses
+
+- **HTTP Status**: 404 Not Found
+- **Description**: Game lobby not found
+- **Content-Type**: application/json
+
+Response Body:: Error Message (JSON)
+
+[source,json]
+----
+{
+  "errorMessage": "Lobby not found"
+}
+----
+
+- **HTTP Status**: 400 Bad Request
+- **Description**: Game lobby action failed
+- **Content-Type**: application/json
+
+Response Body:: Error Message (JSON)
+
+[source,json]
+----
+{
+  "errorMessage": "Action failed"
+}
+----
+
+== Additional Resources
+
+* link:https://spring.io/guides/tutorials/spring-boot-oauth2/[Spring Boot OAuth2 Tutorial] - Tutorial on implementing OAuth2 for securing endpoints.
+* link:https://spring.io/guides/gs/rest-service/[
+* link:https://reflectoring.io/spring-hexagonal/[Hexagonal Architecture with Spring Boot] - Article on implementing hexagonal architecture with Spring Boot. * link:https://softwarecampament.wordpress.com/portsadapters/[Ports and Adapters Architecture] - Introduction to ports and adapters architecture.

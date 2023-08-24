@@ -1,0 +1,103 @@
+= Microservices Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+Welcome to the Microservices Documentation!
+This comprehensive document provides insights into various microservices that collectively contribute to a cohesive application ecosystem.
+These microservices collaborate to deliver a seamless user experience.
+
+== Game Engine Microservice
+
+=== Overview
+
+The Game Engine microservice serves as the heart of the gaming experience, handling game rules, state, and logic.
+It adheres to the hexagonal architecture for modularity and scalability.
+
+=== Architecture Overview
+
+[.architecture]
+image::game_engine_hexagonal_architecture.png[Game Engine Hexagonal Architecture]
+
+The Game Engine microservice comprises modules and adapters such as:
+
+* `game-engine-app`: Main runner class and application configuration.
+* `game-engine-domain`: Contains domain logic and interfaces.
+* `game-engine-service-db-adapter`: Handles database interactions with MongoDB for scalability.
+* `game-engine-service-message-queue`: Manages message queue integration.
+* `game-engine-service-rest-adapter`: Exposes REST endpoints.
+* `game-engine-service-security-adapter`: Manages microservice security.
+
+=== Interaction Flow
+
+The `game-engine-service-rest-adapter` communicates with external sources, invoking the `game-engine-domain` to process requests.
+It enforces game rules, updates game status, and interacts with the `game-engine-service-db-adapter` for data storage.
+The `game-engine-service-message-queue` listens for messages from the lobby service, initiating game creation.
+
+=== Testing Approach
+
+The Game Engine microservice employs Behavior-Driven Development (BDD) using the Cucumber framework.
+Scenarios are written in Gherkin syntax and executed using Cucumber to validate features.
+
+=== Additional Resources
+
+* link:https://reflectoring.io/spring-hexagonal/[Hexagonal Architecture with Spring Boot] - Implementing hexagonal architecture with Spring Boot.
+* link:https://www.mongodb.com/[MongoDB] - Official website for MongoDB.
+* link:https://micrometer.io/[Micrometer] - Official website for Micrometer metrics collection library.
+* link:https://cucumber.io/[Cucumber] - Official website for Cucumber testing framework.
+
+== Game Lobby Microservice
+
+=== Overview
+
+The Game Lobby microservice manages game lobbies, offering creation, availability, and joining functionalities.
+It follows the hexagonal architecture for clarity and flexibility.
+
+=== Architecture Overview
+
+[.architecture]
+image::game_lobby_hexagonal_architecture.png[Game Lobby Hexagonal Architecture]
+
+The Game Lobby microservice comprises modules and adapters including:
+
+* `game-lobby-app`: Main runner class and application configuration.
+* `game-lobby-domain`: Holds domain entities and interfaces.
+* `game-lobby-service-db-adapter`: Manages database interactions using MySQL.
+* `game-lobby-service-message-queue`: Handles message queue communication.
+* `game-lobby-service-rest-adapter`: Exposes REST endpoints.
+* `game-lobby-service-security-adapter`: Ensures microservice security.
+
+=== Interaction Flow
+
+The `game-lobby-service-rest-adapter` handles external requests, prompting the `game-lobby-domain` to process the requests.
+It communicates with the `game-lobby-service-db-adapter` for data storage and the `game-lobby-service-message-queue` to initiate game creation.
+
+=== Testing Approach
+
+The Game Lobby microservice follows Behavior-Driven Development (BDD) with Cucumber for feature testing.
+Scenarios written in Gherkin syntax are executed using Cucumber to ensure feature correctness.
+
+=== Additional Resources
+
+* link:https://reflectoring.io/spring-hexagonal/[Hexagonal Architecture with Spring Boot] - Implementing hexagonal architecture with Spring Boot.
+* link:https://www.mysql.com/[MySQL] - Official website for MySQL.
+* link:https://cucumber.io/[Cucumber] - Official website for Cucumber testing framework.
+
+== Auth Service
+
+...
+== API Gateway
+
+...
+== Eureka Service
+
+...
+== Config Server
+
+...
+== Conclusion
+
+These microservices collectively contribute to an efficient and modular application ecosystem.
+By adhering to best practices and employing hexagonal architecture, BDD testing, and microservice principles, this architecture ensures robustness, scalability, and maintainability.
+

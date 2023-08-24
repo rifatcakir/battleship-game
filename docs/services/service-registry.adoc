@@ -1,0 +1,41 @@
+= Service Registry Microservice Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+The Service Registry Microservice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Service Registry microservice is responsible for managing and maintaining a registry of all the microservices within your architecture.
+
+== Configuration
+
+Service Registry Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Service Registry service is responsible for service registration and discovery.
+
+- **Port**: 8761
+
+=== Eureka Configuration
+
+Eureka instance and client configuration:
+
+- **Instance Hostname**: localhost.eureka (Can be overridden using the `HOSTNAME` environment variable)
+- **Client Configuration**:
+- Register with Eureka: false
+- Fetch Registry: false
+
+[.source]
+[source,properties]
+----
+eureka.instance.hostname=${HOSTNAME:localhost}.eureka
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+----
+
+== Additional Resources
+
+* link:https://spring.io/guides/gs/service-registration-and-discovery/[Service Registration and Discovery with Eureka] - Spring guide on using Eureka for service registration and discovery.
+* link:https://cloud.spring.io/spring-cloud-netflix/reference/html/[Spring Cloud Netflix] - Official documentation for Spring Cloud Netflix components.

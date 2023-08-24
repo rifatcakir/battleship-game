@@ -1,0 +1,40 @@
+= Config Server Microservice Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+The Config Server Microservice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Config Server microservice is responsible for centralizing and managing configuration properties for other microservices in the architecture.
+
+== Configuration
+
+Config Server Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Config Server service provides centralized configuration management for other microservices.
+
+- **Application Name**: CONFIG-SERVER
+- **Cloud Configuration**:
+- Server Properties:
+- Native Search Locations: resources/other.yml
+
+=== Eureka Configuration
+
+The Config Server also includes configuration for interacting with the Eureka service registry.
+
+[.source]
+[source,properties]
+----
+eureka.instance.prefer-ip-address=true
+eureka.client.fetch-registry=true
+eureka.client.register-with-eureka=true
+eureka.client.service-url.defaultZone=${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+----
+
+== Additional Resources
+
+* link:https://cloud.spring.io/spring-cloud-config/reference/html/[Spring Cloud Config] - Official documentation for Spring Cloud Config.
+* link:https://spring.io/guides/gs/centralized-configuration/[Centralized Configuration with Spring Cloud Config] - Spring guide on using Spring Cloud Config.

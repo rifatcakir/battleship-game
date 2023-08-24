@@ -1,0 +1,91 @@
+= API Gateway Microservice Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+The API Gateway Microservice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API Gateway microservice serves as the entry point to your microservices architecture.
+It routes incoming requests to the appropriate backend microservices based on defined routes.
+
+== Configuration
+
+API Gateway Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API Gateway service is responsible for routing requests to various backend microservices.
+
+=== OpenAPI Documentation
+
+- **Route ID**: openapi
+- **Description**: Route for accessing OpenAPI documentation
+- **Path Predicate**: /v3/api-docs/**
+- **Filters**:
+- RewritePath: Rewrites the path to /${path}/v3/api-docs
+
+=== Game Engine Service
+
+- **Route ID**: GAME-ENGINE-SERVICE
+- **Description**: Route for accessing the Game Engine microservice
+- **Path Predicate**: /game-engine/**
+- **Filters**:
+- CircuitBreaker: Implements circuit breaking for the AUTH-SERVICE
+- RequestRateLimiter: Limits request rate using Redis rate limiter
+- **Load Balancer URI**: lb://GAME-ENGINE-SERVICE
+
+=== Game Lobby Service
+
+- **Route ID**: GAME-LOBBY-SERVICE
+- **Description**: Route for accessing the Game Lobby microservice
+- **Path Predicate**: /game-lobby/**
+- **Filters**:
+- CircuitBreaker: Implements circuit breaking for the AUTH-SERVICE
+- RequestRateLimiter: Limits request rate using Redis rate limiter
+- **Load Balancer URI**: lb://GAME-LOBBY-SERVICE
+
+=== Auth Service
+
+- **Route ID**: AUTH-SERVICE
+- **Description**: Route for accessing the Auth microservice
+- **Path Predicate**: /authenticate/**
+- **Filters**:
+- CircuitBreaker: Implements circuit breaking for the AUTH-SERVICE
+- RequestRateLimiter: Limits request rate using Redis rate limiter
+- **Load Balancer URI**: lb://AUTH-SERVICE
+
+=== Swagger UI Documentation
+
+Swagger UI is configured to display the documentation of the individual microservices:
+
+- **Auth Service**:
+- URL: /v3/api-docs/authenticate
+- **Game Lobby Service**:
+- URL: /v3/api-docs/game-lobby
+- **Game Engine Service**:
+- URL: /v3/api-docs/game-engine
+
+== Logging
+
+Logging Configuration
+~~~~~~~~~~~~~~~~~~~~~
+
+The API Gateway service has logging configured as follows:
+
+- **Level**: DEBUG
+- **Package**: org.springframework
+
+== JWT Configuration
+
+JWT (JSON Web Token) Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API Gateway service uses JWT for authentication with the following configuration:
+
+- **Secret**: mySecretKey
+
+== Additional Resources
+
+* link:https://springdoc.org/[Springdoc] - Library for generating OpenAPI documentation with Spring Boot.
+* link:https://www.baeldung.com/spring-cloud-gateway[Spring Cloud Gateway Tutorial] - Tutorial on using Spring Cloud Gateway for routing.

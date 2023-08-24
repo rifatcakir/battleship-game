@@ -1,0 +1,92 @@
+= Auth Microservice Documentation
+:toc:
+:icons: font
+
+== Introduction
+
+The Auth Microservice
+~~~~~~~~~~~~~~~~~~~~~
+
+The Auth microservice is responsible for user authentication and registration.
+It offers endpoints to register new users and generate JWT tokens for authentication.
+
+== Register New User
+
+[.endpoint]
+=== Create New User
+
+[.tag]
+Operation:: POST /signup
+Summary:: User registration endpoint
+Tags:: Registration
+
+This endpoint allows users to register by providing their username and password in the request body.
+
+Request Body:: Sign Up Request (JSON)
+
+[source,json]
+----
+{
+  "username": "example_user",
+  "password": "secretpassword"
+}
+----
+
+Response::
+- **HTTP Status**: 201 Created
+- **Description**: User successfully registered
+- **Content-Type**: application/json
+
+Response Body:: Message Response (JSON)
+
+[source,json]
+----
+{
+  "message": "User registered successfully",
+  "_links": {
+    "Authenticate": {
+      "href": "/auth/login"
+    }
+  }
+}
+----
+
+== Generate JWT Token
+
+[.endpoint]
+=== Login
+
+[.tag]
+Operation:: POST /login
+Summary:: Generating JWT tokens
+Tags:: Authorization
+
+This endpoint allows users to log in and receive a JWT token for authentication.
+
+Request Body:: Login Request (JSON)
+
+[source,json]
+----
+{
+  "username": "example_user",
+  "password": "secretpassword"
+}
+----
+
+Response::
+- **HTTP Status**: 200 OK
+- **Description**: JWT token
+- **Content-Type**: application/json
+
+Response Body:: JWT Response (JSON)
+
+[source,json]
+----
+{
+  "token": "your_generated_jwt_token_here"
+}
+----
+
+== Additional Resources
+
+* link:https://jwt.io/[JWT.io] - JSON Web Tokens documentation.
