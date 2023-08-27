@@ -12,7 +12,6 @@
 
     <artifactId>game-engine-service-db-adapter</artifactId>
     <properties>
-
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     </properties>
 
