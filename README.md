@@ -102,7 +102,8 @@ status of the game, culminating in the announcement of the winner once the Battl
   Clearly depict how each service interacts, communicates, and collaborates.
 - [x] Complete README overview, technologies, and microservices descriptions.
 - [x] Add gameplay mechanics, communication patterns, testing, metrics monitoring, and HATEOAS.
-- [ ] **Stress Testing**: Perform stress testing to assess the application's performance and scalability under heavy
+- [x] Mutation tests
+- [ ] **Performance Testing**: Perform stress testing to assess the application's performance and scalability under heavy
   loads. Document the testing process, tools used, and results in the README.
 - [ ] **Kubernetes Configuration**: Provide instructions on how to deploy the microservices using Kubernetes. Include
   YAML configuration files and step-by-step deployment guidelines.
